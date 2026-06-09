@@ -590,6 +590,7 @@ function doLogin(){
 
 function doLogout(){
   S.usr=null;S.perfil=null;
+  try { localStorage.removeItem("frota_sessao"); } catch(e){}
   document.getElementById("pg-login").style.display="flex";
   document.getElementById("app").style.display="none";
   document.getElementById("l-p").value="";
