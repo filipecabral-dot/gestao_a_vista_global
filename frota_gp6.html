@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Frota Global - Global Premier</title>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F1F5F9;color:#0F172A;font-size:14px;min-height:100vh;}
@@ -280,6 +282,15 @@ header{background:#FFCD11;padding:12px 16px;display:flex;align-items:center;just
           <label class="flbl">Custo (R$)</label>
           <input class="finput" id="m-custo" type="number" placeholder="0,00" step="0.01">
         </div>
+        <div class="form-group">
+          <label class="flbl">Fotos (NF, recibo, peça quebrada...)</label>
+          <div id="fotos-manut-preview" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;"></div>
+          <label style="display:flex;align-items:center;gap:8px;background:#F8FAFC;border:2px dashed #E2E8F0;border-radius:8px;padding:12px;cursor:pointer;" id="foto-manut-label">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <span style="font-size:12px;color:#64748B;font-weight:600;">Adicionar foto (NF, recibo, peça quebrada...)</span>
+            <input type="file" id="foto-manut-inp" accept="image/*" multiple style="display:none;" onchange="previewFotosManut(this)">
+          </label>
+        </div>
         <button class="btn btn-s" onclick="salvarManut()">&#10003; Registrar Manutenção</button>
       </div>
     </div>
@@ -395,6 +406,15 @@ header{background:#FFCD11;padding:12px 16px;display:flex;align-items:center;just
       <label class="flbl">Observações</label>
       <textarea class="ftarea" id="mq-obs" placeholder="Anotações gerais..." style="min-height:60px;"></textarea>
     </div>
+    <div class="form-group">
+      <label class="flbl">Fotos do Equipamento</label>
+      <div id="fotos-maq-preview" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;"></div>
+      <label style="display:flex;align-items:center;gap:8px;background:#F8FAFC;border:2px dashed #E2E8F0;border-radius:8px;padding:12px;cursor:pointer;transition:all .2s;" id="foto-maq-label">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        <span style="font-size:12px;color:#64748B;font-weight:600;">Adicionar foto (NF, recibo, equipamento...)</span>
+        <input type="file" id="foto-maq-inp" accept="image/*" multiple style="display:none;" onchange="previewFotosMaq(this)">
+      </label>
+    </div>
     <div class="btn-row">
       <button class="btn btn-p" style="flex:1;" onclick="salvarMaq()">&#10003; Salvar</button>
       <button class="btn btn-d btn-sm" id="btn-del-maq" onclick="" style="display:none;">Excluir</button>
@@ -416,6 +436,81 @@ header{background:#FFCD11;padding:12px 16px;display:flex;align-items:center;just
 <div id="toast" style="position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1E3A6E;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:700;display:none;z-index:999;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.2);"></div>
 
 <script>
+// ── FIREBASE ─────────────────────────────────────────
+var fbApp = null, fbDb = null;
+try {
+  fbApp = firebase.initializeApp({
+    apiKey: "AIzaSyDtjLGu1lOdGSYTJh12S8ucunSqKtKzMMc",
+    authDomain: "frota-global.firebaseapp.com",
+    databaseURL: "https://frota-global-default-rtdb.firebaseio.com",
+    projectId: "frota-global",
+    storageBucket: "frota-global.firebasestorage.app",
+    messagingSenderId: "615898547305",
+    appId: "1:615898547305:web:3c635d40934086986e4ef8"
+  });
+  fbDb = firebase.database();
+} catch(e) { console.warn("Firebase:", e.message); }
+
+function fbSalvar(path, val) {
+  try { localStorage.setItem("fb_"+path, JSON.stringify(val)); } catch(e){}
+  if (fbDb) fbDb.ref(path).set(val).catch(function(e){ console.warn(e); });
+}
+function fbCarregar(path, cb) {
+  if (fbDb) {
+    fbDb.ref(path).once("value")
+      .then(function(s){ cb(s.val()); })
+      .catch(function(){ cb(JSON.parse(localStorage.getItem("fb_"+path)||"null")); });
+  } else {
+    cb(JSON.parse(localStorage.getItem("fb_"+path)||"null"));
+  }
+}
+function fbOuvir(path, cb) {
+  if (fbDb) fbDb.ref(path).on("value", function(s){ cb(s.val()); });
+}
+
+// Salvar foto como base64 no Realtime Database (gratuito)
+function uploadFoto(file, pasta, id, cb) {
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    // Redimensionar imagem para economizar espaco
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.createElement("canvas");
+      var MAX = 800;
+      var w = img.width, h = img.height;
+      if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
+      if (h > MAX) { w = Math.round(w * MAX / h); h = MAX; }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+      var base64 = canvas.toDataURL("image/jpeg", 0.7);
+      var fotoId = pasta + "_" + id + "_" + Date.now();
+      // Salvar no Firebase Database
+      if (fbDb) {
+        fbDb.ref("frota/fotos/" + fotoId).set(base64)
+          .then(function(){ cb(fotoId, null); })
+          .catch(function(){ cb(base64, null); }); // fallback: retorna base64 direto
+      } else {
+        cb(base64, null);
+      }
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// Recuperar foto pelo ID
+function getFotoUrl(idOuBase64, cb) {
+  if (!idOuBase64) { cb(""); return; }
+  // Se ja e base64 retorna direto
+  if (idOuBase64.startsWith("data:")) { cb(idOuBase64); return; }
+  // Buscar no Firebase
+  if (fbDb) {
+    fbDb.ref("frota/fotos/" + idOuBase64).once("value")
+      .then(function(s){ cb(s.val() || ""); })
+      .catch(function(){ cb(""); });
+  } else { cb(""); }
+}
+
 // ── DADOS ────────────────────────────────────────────
 var USERS = {
   "admin":     {nome:"Administrador", senha:"1234", perfil:"admin"},
@@ -597,17 +692,39 @@ function salvarMaq(){
     obs: document.getElementById("mq-obs").value.trim(),
     criadoEm: maqEditId?(maqArr.find(function(m){return m.id===maqEditId;})||{}).criadoEm||new Date().toISOString():new Date().toISOString()
   };
-  if(maqEditId){
-    maqArr=maqArr.map(function(m){return m.id===maqEditId?mq:m;});
+  // Upload fotos
+  if (fotosMaqPendentes.length > 0) {
+    toast("Salvando fotos...", "i");
+    uploadFotos(fotosMaqPendentes, "maquinas", mq.id, function(urls) {
+      mq.fotos = (mq.fotos || []).concat(urls);
+      fotosMaqPendentes = [];
+      var prev = document.getElementById("fotos-maq-preview");
+      if (prev) prev.innerHTML = "";
+      if(maqEditId){
+        maqArr=maqArr.map(function(m){return m.id===maqEditId?mq:m;});
+      } else {
+        maqArr.push(mq);
+      }
+      saveMaquinas(maqArr);
+      closeModal("modal-maq");
+      popularSelMaq();
+      renderFrota();
+      renderDash();
+      toast("Maquina salva com " + urls.length + " foto(s)!");
+    });
   } else {
-    maqArr.push(mq);
+    if(maqEditId){
+      maqArr=maqArr.map(function(m){return m.id===maqEditId?mq:m;});
+    } else {
+      maqArr.push(mq);
+    }
+    saveMaquinas(maqArr);
+    closeModal("modal-maq");
+    popularSelMaq();
+    renderFrota();
+    renderDash();
+    toast("Maquina salva!");
   }
-  saveMaquinas(maqArr);
-  closeModal("modal-maq");
-  popularSelMaq();
-  renderFrota();
-  renderDash();
-  toast("Máquina salva!");
 }
 
 function deletarMaq(id){
@@ -703,6 +820,7 @@ function abrirDetalhe(id){
         "<div class='hist-det'>"+r.peca+(r.mecanico?" · "+r.mecanico:"")+"</div>"+
         "</div>";
     }).join("")+"</div>":"<div style='color:#94A3B8;font-size:12px;text-align:center;padding:12px;'>Nenhuma manutenção registrada</div>")+
+    (mq.fotos&&mq.fotos.length?"<div style='margin:8px 0;'><div style='font-size:11px;font-weight:700;color:#1E3A6E;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;'>Fotos ("+mq.fotos.length+")</div><button class='btn btn-g btn-sm' onclick=\"verFotos(getMaquinas().find(function(m){return m.id==='"+mq.id+"';}).fotos||[])\" style='margin-bottom:4px;'>&#128247; Ver fotos</button></div>":"")+
     (S.perfil==="admin"?
       "<div class='btn-row' style='margin-top:14px;'>"+
       "<button class='btn btn-p' style='flex:1;' data-action='editar' data-maqid='"+id+"'>&#9998; Editar</button>"+
@@ -746,7 +864,20 @@ function salvarManut(){
     custo:parseFloat(document.getElementById("m-custo").value)||0,
     criadoEm:new Date().toISOString()
   });
-  saveManutencoes(manut);
+  // Upload fotos manutencao
+  var idManut = "mt_" + Date.now();
+  if (fotosManutPendentes.length > 0) {
+    toast("Salvando fotos...", "i");
+    uploadFotos(fotosManutPendentes, "manutencoes", idManut, function(urls) {
+      manut[manut.length-1].fotos = urls;
+      fotosManutPendentes = [];
+      var prev = document.getElementById("fotos-manut-preview");
+      if (prev) prev.innerHTML = "";
+      saveManutencoes(manut);
+    });
+  } else {
+    saveManutencoes(manut);
+  }
 
   // atualizar medidor e ultima revisao da maquina
   var maqArr=getMaquinas();
@@ -802,6 +933,7 @@ function renderHistorico(){
       "<div class='hist-det'>"+(r.peca?"&#128296; "+r.peca:"")+(r.mecanico?" · &#128100; "+r.mecanico:"")+"</div>"+
       (r.servico?"<div class='hist-det' style='margin-top:2px;'>"+r.servico+"</div>":"")+
       (r.custo?"<div style='font-size:12px;font-weight:700;color:#16A34A;margin-top:4px;'>R$ "+r.custo.toLocaleString("pt-BR",{minimumFractionDigits:2})+"</div>":"")+
+      (r.fotos&&r.fotos.length?"<div style='margin-top:6px;'><button class='btn btn-g btn-sm' onclick=\"verFotos(getManutencoes().find(function(x){return x.id==='"+r.id+"';}).fotos||[])\" >&#128247; "+r.fotos.length+" foto(s)</button></div>":"")+
       "</div>";
   }).join("");
 }
@@ -938,6 +1070,91 @@ function renderAdmin(){
         "</div>";
     }).join("");
   }
+}
+
+// ── FOTOS ────────────────────────────────────────────
+var fotosMaqPendentes = [];   // fotos aguardando upload no cadastro
+var fotosManutPendentes = []; // fotos aguardando upload na manutencao
+
+function previewFotosMaq(input) {
+  fotosMaqPendentes = Array.from(input.files);
+  var prev = document.getElementById("fotos-maq-preview");
+  if (!prev) return;
+  prev.innerHTML = "";
+  fotosMaqPendentes.forEach(function(f, i) {
+    var url = URL.createObjectURL(f);
+    prev.innerHTML += "<div style='position:relative;'>" +
+      "<img src='" + url + "' style='width:70px;height:70px;object-fit:cover;border-radius:6px;border:1px solid #E2E8F0;'>" +
+      "<div style='position:absolute;top:-4px;right:-4px;background:#DC2626;color:#fff;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:10px;cursor:pointer;' onclick='removerFotoMaq(" + i + ")'>x</div>" +
+      "</div>";
+  });
+}
+
+function removerFotoMaq(i) {
+  fotosMaqPendentes.splice(i, 1);
+  var prev = document.getElementById("fotos-maq-preview");
+  if (prev) prev.innerHTML = "";
+  fotosMaqPendentes.forEach(function(f, j) {
+    var url = URL.createObjectURL(f);
+    prev.innerHTML += "<div style='position:relative;'>" +
+      "<img src='" + url + "' style='width:70px;height:70px;object-fit:cover;border-radius:6px;border:1px solid #E2E8F0;'>" +
+      "<div style='position:absolute;top:-4px;right:-4px;background:#DC2626;color:#fff;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:10px;cursor:pointer;' onclick='removerFotoMaq(" + j + ")'>x</div>" +
+      "</div>";
+  });
+}
+
+function previewFotosManut(input) {
+  fotosManutPendentes = Array.from(input.files);
+  var prev = document.getElementById("fotos-manut-preview");
+  if (!prev) return;
+  prev.innerHTML = "";
+  fotosManutPendentes.forEach(function(f, i) {
+    var url = URL.createObjectURL(f);
+    prev.innerHTML += "<div style='position:relative;'>" +
+      "<img src='" + url + "' style='width:70px;height:70px;object-fit:cover;border-radius:6px;border:1px solid #E2E8F0;'>" +
+      "<div style='position:absolute;top:-4px;right:-4px;background:#DC2626;color:#fff;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:10px;cursor:pointer;' onclick='removerFotoManut(" + i + ")'>x</div>" +
+      "</div>";
+  });
+}
+
+function removerFotoManut(i) {
+  fotosManutPendentes.splice(i, 1);
+  var prev = document.getElementById("fotos-manut-preview");
+  if (prev) {
+    prev.innerHTML = "";
+    fotosManutPendentes.forEach(function(f, j) {
+      var url = URL.createObjectURL(f);
+      prev.innerHTML += "<div style='position:relative;'>" +
+        "<img src='" + url + "' style='width:70px;height:70px;object-fit:cover;border-radius:6px;border:1px solid #E2E8F0;'>" +
+        "<div style='position:absolute;top:-4px;right:-4px;background:#DC2626;color:#fff;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:10px;cursor:pointer;' onclick='removerFotoManut(" + j + ")'>x</div>" +
+        "</div>";
+    });
+  }
+}
+
+function uploadFotos(arquivos, pasta, id, cb) {
+  if (!arquivos || arquivos.length === 0) { cb([]); return; }
+  var refs = [];
+  var count = 0;
+  arquivos.forEach(function(f) {
+    uploadFoto(f, pasta, id, function(ref, err) {
+      if (ref) refs.push(ref);
+      count++;
+      if (count === arquivos.length) cb(refs);
+    });
+  });
+}
+
+function verFotos(fotos) {
+  if (!fotos || !fotos.length) { toast("Nenhuma foto cadastrada"); return; }
+  fotos.forEach(function(ref) {
+    getFotoUrl(ref, function(url) {
+      if (url) {
+        var w = window.open("", "_blank");
+        w.document.write("<img src='" + url + "' style='max-width:100%;'>");
+      }
+    });
+  });
 }
 
 // ── PLACA N/A ─────────────────────────────────────────
