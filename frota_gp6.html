@@ -8,146 +8,124 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F1F5F9;color:#0F172A;font-size:14px;min-height:100vh;}
-
-/* LOGIN */
-#pg-login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1E3A6E,#2563EB);padding:16px;}
-.lbox{background:#fff;padding:28px 24px;border-radius:12px;width:100%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
-.llogo{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#94A3B8;margin-bottom:4px;}
-.ltitle{font-size:22px;font-weight:800;color:#1E3A6E;margin-bottom:2px;}
-.lsub{font-size:12px;color:#64748B;margin-bottom:20px;}
-.ll{display:block;font-size:10px;font-weight:700;color:#64748B;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;background:#F1F5F9;color:#0F172A;font-size:14px;min-height:100vh;}
+#pg-login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a1a1a,#333);}
+.lbox{background:#fff;padding:32px 24px;border-radius:12px;width:100%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,.3);border-top:5px solid #FFCD11;}
+.ltitle{font-size:24px;font-weight:800;color:#1a1a1a;margin-bottom:2px;}
+.lsub{font-size:12px;color:#64748B;margin-bottom:24px;}
+.ll{display:block;font-size:11px;font-weight:700;color:#64748B;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;}
 .li{width:100%;padding:11px 14px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:15px;margin-bottom:12px;outline:none;background:#F8FAFC;}
-.li:focus{border-color:#2563EB;background:#fff;}
-.lb{width:100%;background:#1E3A6E;color:#fff;border:none;padding:13px;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.5px;}
-.lb:hover{background:#2563EB;}
-.lerr{color:#DC2626;font-size:12px;margin-top:6px;min-height:16px;}
-.linfo{margin-top:14px;padding:10px;background:#F1F5F9;border-radius:8px;font-size:11px;color:#64748B;text-align:center;line-height:1.9;}
-
-/* APP */
+.li:focus{border-color:#FFCD11;background:#fff;}
+.lb{width:100%;background:#FFCD11;color:#1a1a1a;border:none;padding:13px;border-radius:8px;font-size:15px;font-weight:800;cursor:pointer;}
+.lb:hover{background:#f0c000;}
+.lerr{color:#DC2626;font-size:12px;margin-top:8px;min-height:16px;}
 #app{display:none;flex-direction:column;min-height:100vh;}
-header{background:#FFCD11;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
-.hlogo{font-size:15px;font-weight:800;color:#1A1A1A;letter-spacing:.5px;}
-.hmod{font-size:11px;color:#333;}
-.hright{display:flex;align-items:center;gap:8px;}
-.hpill{background:rgba(0,0,0,.12);color:#1A1A1A;font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;text-transform:uppercase;}
-.hbtn{background:rgba(0,0,0,.1);border:1px solid rgba(0,0,0,.2);color:#1A1A1A;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;border-radius:6px;}
-
-/* BOTTOM NAV */
-.bnav{background:#fff;border-bottom:2px solid #E2E8F0;display:flex;z-index:49;box-shadow:0 2px 6px rgba(0,0,0,.08);flex-shrink:0;}
-.bni{flex:1;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;border:none;background:transparent;color:#94A3B8;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;transition:all .2s;border-bottom:3px solid transparent;}
-.bni.on{color:#1A1A1A;border-bottom-color:#FFCD11;}
-.bni svg{width:20px;height:20px;}
-.bni-dot{width:5px;height:5px;border-radius:50%;background:#DC2626;margin-top:1px;display:none;}
-.bni-dot.show{display:block;}
-
-/* PAGES */
-.page{display:none;padding:16px;padding-bottom:16px;}
+header{background:#FFCD11;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.15);}
+.hlogo{font-size:18px;font-weight:800;color:#1a1a1a;}
+.hpill{background:rgba(0,0,0,.1);color:#1a1a1a;font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;text-transform:uppercase;}
+.hbtn{background:rgba(0,0,0,.15);border:none;color:#1a1a1a;padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer;border-radius:6px;}
+.hbtn:hover{background:rgba(0,0,0,.25);}
+.nav{background:#fff;display:flex;border-bottom:3px solid #E2E8F0;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.nb{flex:0 0 auto;min-width:72px;padding:10px 8px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;border:none;background:transparent;color:#94A3B8;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;border-bottom:3px solid transparent;margin-bottom:-3px;white-space:nowrap;}
+.nb svg{width:20px;height:20px;flex-shrink:0;}
+.nb.on{color:#1a1a1a;border-bottom-color:#FFCD11;}
+.page{display:none;padding:14px;padding-bottom:24px;}
 .page.on{display:block;}
-.ptitle{font-size:18px;font-weight:800;color:#1E3A6E;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;}
-
-/* CARDS */
-.card{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.08);border:1px solid #E2E8F0;}
-.card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
-.card-title{font-size:15px;font-weight:800;color:#1E3A6E;}
-.card-sub{font-size:11px;color:#64748B;margin-top:1px;}
-.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+.ptitle{font-size:18px;font-weight:800;color:#1a1a1a;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.card{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.08);border:1px solid #E2E8F0;}
+.card.click{cursor:pointer;transition:box-shadow .2s;}
+.card.click:hover{box-shadow:0 4px 12px rgba(0,0,0,.12);}
+.card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.card-title{font-size:16px;font-weight:800;color:#1a1a1a;}
+.card-sub{font-size:12px;color:#64748B;}
+.badge{display:inline-block;padding:3px 10px;border-radius:10px;font-size:10px;font-weight:700;text-transform:uppercase;}
 .badge-ok{background:#DCFCE7;color:#16A34A;}
 .badge-warn{background:#FEF9C3;color:#854D0E;}
 .badge-crit{background:#FEE2E2;color:#DC2626;}
-.badge-blue{background:#DBEAFE;color:#1E3A6E;}
-.badge-gray{background:#F1F5F9;color:#475569;}
-
-/* GRID INFO */
-.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px;}
-.info-item{background:#F8FAFC;border-radius:6px;padding:7px 10px;}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+.info-item{background:#F8FAFC;border-radius:8px;padding:8px 10px;}
 .info-lbl{font-size:9px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.5px;}
-.info-val{font-size:13px;font-weight:700;color:#0F172A;margin-top:1px;}
-
+.info-val{font-size:13px;font-weight:700;color:#0F172A;margin-top:2px;}
+/* CONTAGEM REGRESSIVA */
+.countdown{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;}
+.cd-item{background:#1a1a1a;color:#FFCD11;border-radius:8px;padding:6px 10px;text-align:center;flex:1;min-width:70px;}
+.cd-val{font-size:20px;font-weight:800;}
+.cd-lbl{font-size:9px;font-weight:700;text-transform:uppercase;opacity:.7;margin-top:2px;}
+.cd-item.warn{background:#854D0E;color:#FEF9C3;}
+.cd-item.crit{background:#DC2626;color:#FEE2E2;}
 /* ALERTAS */
-.alerta{border-left:4px solid;padding:10px 12px;border-radius:0 8px 8px 0;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px;}
+.alerta{border-left:4px solid;padding:12px;border-radius:0 8px 8px 0;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px;}
+.alerta.click{cursor:pointer;}
 .alerta-crit{background:#FEF2F2;border-color:#DC2626;}
 .alerta-warn{background:#FFFBEB;border-color:#F59E0B;}
 .alerta-ok{background:#F0FDF4;border-color:#16A34A;}
-.alerta-icon{font-size:18px;flex-shrink:0;}
-.alerta-txt{flex:1;}
-.alerta-nm{font-size:13px;font-weight:700;color:#0F172A;}
+.alerta-icon{font-size:20px;flex-shrink:0;}
+.alerta-nm{font-size:13px;font-weight:700;}
 .alerta-sub{font-size:11px;color:#64748B;margin-top:2px;}
-
-/* FORMULARIOS */
-.form-group{margin-bottom:12px;}
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px;}
+.stat{background:#fff;border-radius:10px;padding:14px;text-align:center;border:1px solid #E2E8F0;}
+.stat-val{font-size:28px;font-weight:800;color:#1a1a1a;}
+.stat-lbl{font-size:10px;color:#64748B;font-weight:600;text-transform:uppercase;margin-top:2px;}
+.search-wrap{position:relative;margin-bottom:12px;}
+.search-inp{width:100%;padding:11px 14px 11px 40px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:14px;outline:none;background:#fff;}
+.search-inp:focus{border-color:#FFCD11;}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:16px;}
+.filtros{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:2px;}
+.fb{flex:0 0 auto;padding:6px 12px;border:1.5px solid #E2E8F0;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;background:#fff;color:#64748B;white-space:nowrap;}
+.fb.on{background:#FFCD11;border-color:#FFCD11;color:#1a1a1a;}
+.form-group{margin-bottom:14px;}
 .flbl{display:block;font-size:11px;font-weight:700;color:#64748B;letter-spacing:.5px;text-transform:uppercase;margin-bottom:5px;}
 .finput,.fsel,.ftarea{width:100%;padding:11px 14px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:14px;outline:none;background:#fff;-webkit-appearance:none;}
-.finput:focus,.fsel:focus,.ftarea:focus{border-color:#2563EB;}
+.finput:focus,.fsel:focus,.ftarea:focus{border-color:#FFCD11;}
 .ftarea{min-height:80px;resize:vertical;font-family:inherit;}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-
-/* BOTOES */
-.btn{padding:11px 18px;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;letter-spacing:.3px;transition:all .2s;}
-.btn-p{background:#1E3A6E;color:#fff;width:100%;justify-content:center;}
-.btn-p:hover{background:#2563EB;}
-.btn-s{background:#16A34A;color:#fff;width:100%;justify-content:center;}
-.btn-s:hover{background:#15803D;}
-.btn-d{background:#FEE2E2;color:#DC2626;border:1px solid #FECACA;}
-.btn-d:hover{background:#DC2626;color:#fff;}
-.btn-g{background:#F1F5F9;color:#475569;border:1px solid #E2E8F0;}
-.btn-g:hover{background:#E2E8F0;}
-.btn-sm{padding:6px 12px;font-size:11px;}
-.btn-row{display:flex;gap:8px;margin-top:4px;}
-
-/* SEARCH */
-.search-wrap{position:relative;margin-bottom:14px;}
-.search-inp{width:100%;padding:11px 14px 11px 38px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:14px;outline:none;background:#fff;}
-.search-inp:focus{border-color:#2563EB;}
-.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#94A3B8;font-size:16px;}
-
+.btn{padding:11px 18px;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:all .2s;width:100%;}
+.btn-y{background:#FFCD11;color:#1a1a1a;}.btn-y:hover{background:#f0c000;}
+.btn-g{background:#16A34A;color:#fff;}.btn-g:hover{background:#15803D;}
+.btn-r{background:#DC2626;color:#fff;border:none;}.btn-r:hover{background:#B91C1C;}
+.btn-c{background:#F1F5F9;color:#475569;border:1px solid #E2E8F0;}.btn-c:hover{background:#E2E8F0;}
+.btn-sm{padding:6px 12px;font-size:11px;width:auto;}
+.btn-row{display:flex;gap:8px;margin-top:12px;}
+/* CENTRO DE CUSTO CHIPS */
+.cc-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+.cc-chip{padding:6px 12px;border:1.5px solid #E2E8F0;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;background:#fff;color:#475569;transition:all .15s;}
+.cc-chip.on{background:#1a1a1a;border-color:#1a1a1a;color:#FFCD11;}
 /* MODAL */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:flex-end;justify-content:center;}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;display:none;align-items:flex-end;justify-content:center;}
 .modal-bg.on{display:flex;}
-.modal{background:#fff;border-radius:16px 16px 0 0;width:100%;max-width:480px;max-height:92vh;overflow-y:auto;padding:20px 16px 32px;}
-.modal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
-.modal-title{font-size:17px;font-weight:800;color:#1E3A6E;}
-.modal-x{background:#F1F5F9;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;color:#64748B;}
-
-/* TIPO ICON */
-.tipo-icon{font-size:24px;margin-right:10px;}
-
-/* PROGRESS BAR */
-.prog-wrap{margin-top:8px;}
-.prog-lbl{display:flex;justify-content:space-between;font-size:10px;color:#64748B;margin-bottom:4px;}
-.prog-bar{background:#E2E8F0;height:6px;border-radius:3px;overflow:hidden;}
-.prog-fill{height:100%;border-radius:3px;transition:width .4s;}
-
-/* TABS */
-.tabs{display:flex;background:#F1F5F9;border-radius:8px;padding:3px;margin-bottom:14px;}
-.tab{flex:1;padding:8px 4px;text-align:center;font-size:11px;font-weight:700;color:#64748B;cursor:pointer;border-radius:6px;transition:all .2s;}
-.tab.on{background:#fff;color:#1E3A6E;box-shadow:0 1px 3px rgba(0,0,0,.1);}
-
-/* HISTORICO ITEM */
-.hist-item{padding:12px;border-bottom:1px solid #F1F5F9;}
+.modal{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:520px;max-height:92vh;overflow-y:auto;}
+.modal-hdr{padding:16px 16px 12px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;border-bottom:1px solid #F1F5F9;z-index:1;}
+.modal-title{font-size:18px;font-weight:800;color:#1a1a1a;}
+.modal-x{background:#F1F5F9;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:20px;color:#64748B;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.modal-body{padding:16px;}
+.pbar{background:#E2E8F0;height:6px;border-radius:3px;overflow:hidden;margin-top:6px;}
+.pbar-f{height:100%;background:#16A34A;border-radius:3px;}
+/* FOTO */
+.foto-zone{border:2px dashed #E2E8F0;border-radius:10px;padding:14px;text-align:center;cursor:pointer;}
+.foto-zone:hover{border-color:#FFCD11;background:#FFFBEB;}
+.foto-prev{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
+.foto-thumb{position:relative;width:72px;height:72px;}
+.foto-thumb img{width:72px;height:72px;object-fit:cover;border-radius:8px;border:1px solid #E2E8F0;}
+.foto-del-btn{position:absolute;top:-5px;right:-5px;background:#DC2626;color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+/* HIST ITEM */
+.hist-item{padding:12px;border-bottom:1px solid #F1F5F9;cursor:pointer;transition:background .15s;}
+.hist-item:hover{background:#F8FAFC;}
 .hist-item:last-child{border-bottom:none;}
 .hist-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
 .hist-nm{font-size:13px;font-weight:700;}
 .hist-data{font-size:10px;color:#94A3B8;}
 .hist-det{font-size:11px;color:#64748B;margin-top:2px;}
-
-/* EMPTY STATE */
+/* RELATORIO TABELA */
+.rel-table{width:100%;border-collapse:collapse;font-size:12px;}
+.rel-table th{background:#1a1a1a;color:#FFCD11;padding:8px 10px;text-align:left;font-family:inherit;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+.rel-table td{padding:8px 10px;border-bottom:1px solid #F1F5F9;}
+.rel-table tr:hover td{background:#F8FAFC;}
 .empty{text-align:center;padding:40px 20px;color:#94A3B8;}
 .empty-icon{font-size:48px;margin-bottom:10px;}
 .empty-txt{font-size:14px;font-weight:600;}
-.empty-sub{font-size:12px;margin-top:4px;}
-
-/* STATS */
-.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px;}
-.stat{background:#fff;border-radius:10px;padding:14px;text-align:center;border:1px solid #E2E8F0;}
-.stat-val{font-size:26px;font-weight:800;color:#1E3A6E;}
-.stat-lbl{font-size:10px;color:#64748B;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
-
-@media(min-width:600px){
-  .form-row{grid-template-columns:repeat(3,1fr);}
-  .stats-grid{grid-template-columns:repeat(4,1fr);}
-  .page{max-width:700px;margin:0 auto;}
-}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:700;display:none;z-index:999;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.25);}
+.toast.ok{background:#16A34A;}.toast.err{background:#DC2626;}
+@media(min-width:600px){.form-row{grid-template-columns:repeat(3,1fr);}.stats-grid{grid-template-columns:repeat(4,1fr);}.page{max-width:720px;margin:0 auto;}}
 </style>
 </head>
 <body>
@@ -155,59 +133,52 @@ header{background:#FFCD11;padding:12px 16px;display:flex;align-items:center;just
 <!-- LOGIN -->
 <div id="pg-login">
   <div class="lbox">
-    <div class="llogo">Global Premier Construtora</div>
     <div class="ltitle">Frota Global</div>
-    <div class="lsub">Controle de manutenção e reparos</div>
+    <div class="lsub">Global Premier Construtora</div>
     <label class="ll">Usuário</label>
-    <input class="li" id="l-u" type="text" placeholder="seu.usuario" autocomplete="off">
+    <input class="li" id="l-u" type="text" autocomplete="off" placeholder="usuario">
     <label class="ll">Senha</label>
     <input class="li" id="l-p" type="password" placeholder="senha">
     <button class="lb" onclick="doLogin()">Entrar</button>
     <div class="lerr" id="l-err"></div>
-    <div class="linfo">admin/1234 &nbsp;·&nbsp; motorista/1234</div>
   </div>
 </div>
 
 <!-- APP -->
 <div id="app">
   <header>
-    <div>
-      <div class="hlogo">Frota Global</div>
-      <div class="hmod">Global Premier</div>
-    </div>
-    <div class="hright">
-      <span class="hpill" id="h-perf"></span>
-      <span class="hpill" id="h-usr"></span>
+    <div class="hlogo">&#128663; Frota Global</div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="hpill" id="h-usr">-</span>
       <button class="hbtn" onclick="doLogout()">Sair</button>
     </div>
   </header>
 
-  <!-- NAV SUPERIOR -->
-  <div class="bnav" id="bnav">
-    <button class="bni on" data-pg="home" onclick="goTab('home',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      Início
-      <div class="bni-dot" id="dot-home"></div>
+  <div class="nav">
+    <button class="nb on" onclick="goTab('home',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Início
     </button>
-    <button class="bni" data-pg="frota" onclick="goTab('frota',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-      Frota
+    <button class="nb" onclick="goTab('frota',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Frota
     </button>
-    <button class="bni" data-pg="manut" onclick="goTab('manut',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-      Manutencao
+    <button class="nb" onclick="goTab('manut',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>Manutenção
     </button>
-    <button class="bni" data-pg="admin" id="tab-admin" onclick="goTab('admin',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-      Relatorios
+    <button class="nb" onclick="goTab('relatorio',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Relatório
+    </button>
+    <button class="nb" id="nav-admin" onclick="goTab('admin',this)" style="display:none;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>Admin
     </button>
   </div>
 
-  <!-- DASHBOARD -->
+  <!-- INICIO -->
   <div class="page on" id="pg-home">
     <div class="ptitle">Dashboard</div>
     <div class="stats-grid" id="stats"></div>
-    <div style="font-size:12px;font-weight:700;color:#DC2626;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">&#9888; Alertas de Revisão</div>
+    <div style="font-size:11px;font-weight:700;color:#1a1a1a;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">&#9201; Próximas Revisões</div>
+    <div id="countdown-list"></div>
+    <div style="font-size:11px;font-weight:700;color:#DC2626;text-transform:uppercase;letter-spacing:.5px;margin:12px 0 8px;">&#9888; Alertas</div>
     <div id="alertas-list"></div>
   </div>
 
@@ -215,19 +186,19 @@ header{background:#FFCD11;padding:12px 16px;display:flex;align-items:center;just
   <div class="page" id="pg-frota">
     <div class="ptitle">
       Frota
-      <button class="btn btn-p btn-sm" id="btn-add-maq" onclick="abrirModalMaq()" style="display:none;">+ Máquina</button>
+      <button class="btn btn-y btn-sm" id="btn-add" onclick="abrirModalMaq(null)" style="display:none;">+ Máquina</button>
     </div>
     <div class="search-wrap">
       <span class="search-icon">&#128269;</span>
-      <input class="search-inp" id="busca" type="text" placeholder="Buscar por placa, modelo, marca..." oninput="renderFrota()">
+      <input class="search-inp" id="busca" type="text" placeholder="Buscar placa, modelo, marca..." oninput="renderFrota()">
     </div>
-    <div style="display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:4px;">
-      <button class="btn btn-g btn-sm filtro-tipo on" data-tipo="" onclick="setFiltroTipo(this,'')">Todos</button>
-      <button class="btn btn-g btn-sm filtro-tipo" data-tipo="retroescavadeira" onclick="setFiltroTipo(this,'retroescavadeira')">&#9968; Retro</button>
-      <button class="btn btn-g btn-sm filtro-tipo" data-tipo="caminhao" onclick="setFiltroTipo(this,'caminhao')">&#128666; Caminhão</button>
-      <button class="btn btn-g btn-sm filtro-tipo" data-tipo="manipuladora" onclick="setFiltroTipo(this,'manipuladora')">&#127959; Manipul.</button>
-      <button class="btn btn-g btn-sm filtro-tipo" data-tipo="camionete" onclick="setFiltroTipo(this,'camionete')">&#128665; Camionete</button>
-      <button class="btn btn-g btn-sm filtro-tipo" data-tipo="carro" onclick="setFiltroTipo(this,'carro')">&#128664; Carro</button>
+    <div class="filtros">
+      <button class="fb on" onclick="setFiltro('',this)">Todos</button>
+      <button class="fb" onclick="setFiltro('retroescavadeira',this)">&#9968; Retro</button>
+      <button class="fb" onclick="setFiltro('caminhao',this)">&#128666; Caminhão</button>
+      <button class="fb" onclick="setFiltro('manipuladora',this)">&#127959; Manipul.</button>
+      <button class="fb" onclick="setFiltro('camionete',this)">&#128665; Camionete</button>
+      <button class="fb" onclick="setFiltro('carro',this)">&#128664; Carro</button>
     </div>
     <div id="frota-list"></div>
   </div>
@@ -235,17 +206,16 @@ header{background:#FFCD11;padding:12px 16px;display:flex;align-items:center;just
   <!-- MANUTENCAO -->
   <div class="page" id="pg-manut">
     <div class="ptitle">Manutenção</div>
-    <div class="tabs">
-      <div class="tab on" onclick="setTabManut('registrar',this)">Registrar</div>
-      <div class="tab" onclick="setTabManut('historico',this)">Histórico</div>
+    <div style="display:flex;background:#F1F5F9;border-radius:10px;padding:3px;margin-bottom:14px;">
+      <div class="tab-btn on" id="tb-reg" onclick="setTabManut('reg')" style="flex:1;padding:8px;text-align:center;font-size:12px;font-weight:700;cursor:pointer;border-radius:8px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.1);">Registrar</div>
+      <div class="tab-btn" id="tb-hist" onclick="setTabManut('hist')" style="flex:1;padding:8px;text-align:center;font-size:12px;font-weight:700;cursor:pointer;border-radius:8px;color:#64748B;">Histórico</div>
     </div>
-    <div id="manut-registrar">
+    <!-- REGISTRAR -->
+    <div id="div-reg">
       <div class="card">
         <div class="form-group">
           <label class="flbl">Máquina / Veículo</label>
-          <select class="fsel" id="m-maq">
-            <option value="">Selecione...</option>
-          </select>
+          <select class="fsel" id="m-maq" onchange="atualizarLblMed()"><option value="">Selecione...</option></select>
         </div>
         <div class="form-row">
           <div class="form-group">
@@ -262,162 +232,177 @@ header{background:#FFCD11;padding:12px 16px;display:flex;align-items:center;just
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label class="flbl" id="lbl-medidor">KM / Horímetro</label>
-            <input class="finput" id="m-medidor" type="number" placeholder="0">
+            <label class="flbl" id="lbl-med">KM / Horímetro</label>
+            <input class="finput" id="m-med" type="number" placeholder="0">
           </div>
           <div class="form-group">
             <label class="flbl">Mecânico</label>
-            <input class="finput" id="m-mecanico" type="text" placeholder="Nome">
+            <input class="finput" id="m-mec" type="text" placeholder="Nome do mecânico">
           </div>
         </div>
         <div class="form-group">
           <label class="flbl">Peça(s) Trocada(s)</label>
-          <input class="finput" id="m-peca" type="text" placeholder="Ex: Filtro de óleo, pastilha de freio...">
+          <input class="finput" id="m-peca" type="text" placeholder="Ex: Filtro de óleo, pastilha...">
         </div>
         <div class="form-group">
           <label class="flbl">Serviço Realizado</label>
-          <textarea class="ftarea" id="m-servico" placeholder="Descreva o serviço..."></textarea>
+          <textarea class="ftarea" id="m-svc" placeholder="Descreva o serviço..."></textarea>
         </div>
         <div class="form-group">
-          <label class="flbl">Custo (R$)</label>
+          <label class="flbl">Custo Total (R$)</label>
           <input class="finput" id="m-custo" type="number" placeholder="0,00" step="0.01">
         </div>
+        <!-- CENTROS DE CUSTO -->
         <div class="form-group">
-          <label class="flbl">Fotos (NF, recibo, peça quebrada...)</label>
-          <div id="fotos-manut-preview" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;"></div>
-          <label style="display:flex;align-items:center;gap:8px;background:#F8FAFC;border:2px dashed #E2E8F0;border-radius:8px;padding:12px;cursor:pointer;" id="foto-manut-label">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-            <span style="font-size:12px;color:#64748B;font-weight:600;">Adicionar foto (NF, recibo, peça quebrada...)</span>
-            <input type="file" id="foto-manut-inp" accept="image/*" multiple style="display:none;" onchange="previewFotosManut(this)">
-          </label>
+          <label class="flbl">Centros de Custo <span style="font-weight:400;color:#94A3B8;">(rateio igualitário)</span></label>
+          <div class="cc-chips" id="cc-chips-reg">
+            <div style="font-size:12px;color:#94A3B8;">Nenhum centro de custo cadastrado</div>
+          </div>
+          <div id="cc-rateio" style="margin-top:8px;font-size:12px;color:#64748B;"></div>
         </div>
-        <button class="btn btn-s" onclick="salvarManut()">&#10003; Registrar Manutenção</button>
+        <div class="form-group">
+          <label class="flbl">Fotos (NF, recibo, peça...)</label>
+          <div class="foto-prev" id="prev-manut"></div>
+          <div class="foto-zone" onclick="document.getElementById('inp-foto-manut').click()">
+            <div style="font-size:24px;">&#128247;</div>
+            <div style="font-size:12px;color:#64748B;font-weight:600;margin-top:4px;">Toque para adicionar foto</div>
+          </div>
+          <input type="file" id="inp-foto-manut" accept="image/*" multiple style="display:none;" onchange="prevFotos(this,'prev-manut','manut')">
+        </div>
+        <button class="btn btn-g" onclick="salvarManut()">&#10003; Registrar Manutenção</button>
       </div>
     </div>
-    <div id="manut-historico" style="display:none;">
+    <!-- HISTORICO -->
+    <div id="div-hist" style="display:none;">
       <div class="search-wrap">
         <span class="search-icon">&#128269;</span>
-        <input class="search-inp" id="busca-hist" type="text" placeholder="Buscar por máquina, peça, mecânico..." oninput="renderHistorico()">
+        <input class="search-inp" id="busca-hist" type="text" placeholder="Buscar..." oninput="renderHist()">
       </div>
-      <div class="card" style="padding:0;overflow:hidden;">
-        <div id="hist-list"></div>
-      </div>
+      <div style="font-size:11px;color:#64748B;margin-bottom:8px;">Clique em um registro para editar</div>
+      <div class="card" style="padding:0;overflow:hidden;"><div id="hist-list"></div></div>
     </div>
   </div>
 
-  <!-- RELATORIO / ADMIN -->
-  <div class="page" id="pg-admin">
-    <div class="ptitle">Relatórios</div>
-    <div class="stats-grid" id="stats2"></div>
-    <div style="font-size:12px;font-weight:700;color:#1E3A6E;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Por Tipo de Máquina</div>
-    <div id="rel-tipos"></div>
-    <div style="font-size:12px;font-weight:700;color:#1E3A6E;text-transform:uppercase;letter-spacing:.5px;margin:12px 0 8px;">Custo por Máquina</div>
-    <div id="rel-custos"></div>
+  <!-- RELATORIO -->
+  <div class="page" id="pg-relatorio">
+    <div class="ptitle">Relatório de Custos</div>
+    <div class="card" style="margin-bottom:12px;">
+      <div class="form-row" style="margin-bottom:0;">
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="flbl">Filtrar por Máquina</label>
+          <select class="fsel" id="rel-maq" onchange="renderRel()"><option value="">Todas</option></select>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="flbl">Filtrar por Centro de Custo</label>
+          <select class="fsel" id="rel-cc" onchange="renderRel()"><option value="">Todos</option></select>
+        </div>
+      </div>
+    </div>
+    <div style="background:#fff;border-radius:10px;overflow:auto;box-shadow:0 1px 4px rgba(0,0,0,.08);">
+      <table class="rel-table" id="rel-table">
+        <thead><tr>
+          <th>Máquina</th><th>Data</th><th>Tipo</th><th>Peça / Serviço</th>
+          <th>Centro de Custo</th><th style="text-align:right;">Valor (R$)</th>
+        </tr></thead>
+        <tbody id="rel-body"></tbody>
+        <tfoot id="rel-foot"></tfoot>
+      </table>
+    </div>
   </div>
 
-
+  <!-- ADMIN -->
+  <div class="page" id="pg-admin">
+    <div class="ptitle">Administração</div>
+    <!-- Centros de Custo -->
+    <div style="font-size:13px;font-weight:800;color:#1a1a1a;margin-bottom:10px;">&#127970; Centros de Custo</div>
+    <div class="card" style="margin-bottom:14px;">
+      <div style="display:flex;gap:8px;margin-bottom:10px;">
+        <input class="finput" id="cc-nome" type="text" placeholder="Nome do centro de custo" style="flex:1;">
+        <button class="btn btn-y btn-sm" onclick="addCC()">+ Add</button>
+      </div>
+      <div id="cc-lista"></div>
+    </div>
+    <!-- Usuarios -->
+    <div style="font-size:13px;font-weight:800;color:#1a1a1a;margin-bottom:10px;">&#128100; Usuários</div>
+    <div class="card" style="margin-bottom:14px;">
+      <div class="form-row" style="margin-bottom:8px;">
+        <input class="finput" id="usr-nome" type="text" placeholder="Nome">
+        <input class="finput" id="usr-senha" type="text" placeholder="Senha">
+      </div>
+      <select class="fsel" id="usr-perfil" style="margin-bottom:8px;">
+        <option value="operador">Operador / Motorista</option>
+        <option value="mecanico">Mecânico</option>
+        <option value="admin">Admin</option>
+      </select>
+      <button class="btn btn-y btn-sm" onclick="addUsr()">+ Adicionar Usuário</button>
+      <div id="usr-lista" style="margin-top:10px;"></div>
+    </div>
+    <!-- Stats -->
+    <div style="font-size:13px;font-weight:800;color:#1a1a1a;margin-bottom:10px;">&#128202; Estatísticas</div>
+    <div class="stats-grid" id="stats2"></div>
+  </div>
 </div>
 
-<!-- MODAL MÁQUINA -->
+<!-- MODAL MAQUINA -->
 <div class="modal-bg" id="modal-maq">
   <div class="modal">
     <div class="modal-hdr">
-      <div class="modal-title" id="modal-maq-title">Nova Máquina</div>
-      <button class="modal-x" onclick="closeModal('modal-maq')">&times;</button>
+      <div class="modal-title" id="maq-title">Nova Máquina</div>
+      <button class="modal-x" onclick="fecharModal('modal-maq')">&times;</button>
     </div>
-    <div class="form-group">
-      <label class="flbl">Tipo</label>
-      <select class="fsel" id="mq-tipo" onchange="atualizarCampoPlaca(this.value)">
-        <option value="retroescavadeira">&#9968; Retroescavadeira</option>
-        <option value="caminhao">&#128666; Caminhão Caçamba</option>
-        <option value="manipuladora">&#127959; Manipuladora</option>
-        <option value="camionete">&#128665; Camionete</option>
-        <option value="carro">&#128664; Carro de Passeio</option>
-      </select>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="flbl">Marca</label>
-        <input class="finput" id="mq-marca" type="text" placeholder="Ex: JCB">
+    <div class="modal-body">
+      <div class="form-group"><label class="flbl">Tipo</label>
+        <select class="fsel" id="mq-tipo" onchange="onTipoChange()">
+          <option value="retroescavadeira">&#9968; Retroescavadeira</option>
+          <option value="caminhao">&#128666; Caminhão</option>
+          <option value="manipuladora">&#127959; Manipuladora</option>
+          <option value="camionete">&#128665; Camionete</option>
+          <option value="carro">&#128664; Carro de Passeio</option>
+        </select>
       </div>
-      <div class="form-group">
-        <label class="flbl">Modelo</label>
-        <input class="finput" id="mq-modelo" type="text" placeholder="Ex: 3CX">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="flbl">Ano</label>
-        <input class="finput" id="mq-ano" type="number" placeholder="2020">
-      </div>
-      <div class="form-group">
-        <label class="flbl">Cor</label>
-        <input class="finput" id="mq-cor" type="text" placeholder="Amarelo">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="flbl">Placa <span id="placa-na-lbl" style="font-size:9px;color:#94A3B8;display:none;">(N/A para este tipo)</span></label>
-        <input class="finput" id="mq-placa" type="text" placeholder="ABC-1234" style="text-transform:uppercase;">
-      </div>
-      <div class="form-group">
-        <label class="flbl">Chassi / Serie</label>
-        <input class="finput" id="mq-chassi" type="text" placeholder="9BWZZZ...">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="flbl">Medidor</label>
-      <select class="fsel" id="mq-medidor-tipo">
-        <option value="km">Quilometragem (KM)</option>
-        <option value="horas">Horímetro (Horas)</option>
-        <option value="ambos">Ambos (KM + Horas)</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="flbl">Medidor Atual</label>
-      <input class="finput" id="mq-medidor-atual" type="number" placeholder="0">
-    </div>
-    <div style="background:#F8FAFC;border-radius:8px;padding:12px;margin-bottom:14px;">
-      <div style="font-size:12px;font-weight:700;color:#1E3A6E;margin-bottom:10px;">&#9201; Intervalos de Revisão</div>
       <div class="form-row">
-        <div class="form-group">
-          <label class="flbl">A cada (dias)</label>
-          <input class="finput" id="mq-rev-dias" type="number" placeholder="90">
+        <div class="form-group"><label class="flbl">Marca</label><input class="finput" id="mq-marca" type="text" placeholder="JCB"></div>
+        <div class="form-group"><label class="flbl">Modelo</label><input class="finput" id="mq-modelo" type="text" placeholder="3CX"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="flbl">Ano</label><input class="finput" id="mq-ano" type="number" placeholder="2020"></div>
+        <div class="form-group"><label class="flbl">Cor</label><input class="finput" id="mq-cor" type="text" placeholder="Amarelo"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="flbl" id="lbl-placa">Placa</label><input class="finput" id="mq-placa" type="text" placeholder="ABC-1234" style="text-transform:uppercase;"></div>
+        <div class="form-group"><label class="flbl">Chassi / Série</label><input class="finput" id="mq-chassi" type="text" placeholder="Número do chassi"></div>
+      </div>
+      <div class="form-group"><label class="flbl">Medidor</label>
+        <select class="fsel" id="mq-med-tipo">
+          <option value="km">Quilometragem (KM)</option>
+          <option value="horas">Horímetro (Horas)</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="flbl">Medidor Atual</label><input class="finput" id="mq-med-atual" type="number" placeholder="0"></div>
+      <div style="background:#F8FAFC;border-radius:10px;padding:12px;margin-bottom:14px;">
+        <div style="font-size:12px;font-weight:700;color:#1a1a1a;margin-bottom:10px;">&#9201; Intervalos de Revisão</div>
+        <div class="form-row">
+          <div class="form-group"><label class="flbl">A cada (dias)</label><input class="finput" id="mq-rev-dias" type="number" placeholder="90"></div>
+          <div class="form-group"><label class="flbl">A cada (km/h)</label><input class="finput" id="mq-rev-med" type="number" placeholder="250"></div>
         </div>
-        <div class="form-group">
-          <label class="flbl">A cada (km/h)</label>
-          <input class="finput" id="mq-rev-medidor" type="number" placeholder="250">
+        <div class="form-row">
+          <div class="form-group"><label class="flbl">Última revisão</label><input class="finput" id="mq-ult-rev" type="date"></div>
+          <div class="form-group"><label class="flbl">Medidor na revisão</label><input class="finput" id="mq-med-rev" type="number" placeholder="0"></div>
         </div>
       </div>
+      <div class="form-group"><label class="flbl">Operador / Responsável</label><input class="finput" id="mq-op" type="text" placeholder="Nome do operador"></div>
+      <div class="form-group"><label class="flbl">Observações</label><textarea class="ftarea" id="mq-obs" style="min-height:60px;"></textarea></div>
       <div class="form-group">
-        <label class="flbl">Última revisão em</label>
-        <input class="finput" id="mq-ultima-rev" type="date">
+        <label class="flbl">Fotos do Equipamento</label>
+        <div class="foto-prev" id="prev-maq"></div>
+        <div class="foto-zone" onclick="document.getElementById('inp-foto-maq').click()">
+          <div style="font-size:24px;">&#128247;</div>
+          <div style="font-size:12px;color:#64748B;font-weight:600;margin-top:4px;">Adicionar foto</div>
+        </div>
+        <input type="file" id="inp-foto-maq" accept="image/*" multiple style="display:none;" onchange="prevFotos(this,'prev-maq','maq')">
       </div>
-      <div class="form-group">
-        <label class="flbl">Medidor na última revisão</label>
-        <input class="finput" id="mq-medidor-rev" type="number" placeholder="0">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="flbl">Responsável / Operador</label>
-      <input class="finput" id="mq-operador" type="text" placeholder="Nome do operador principal">
-    </div>
-    <div class="form-group">
-      <label class="flbl">Observações</label>
-      <textarea class="ftarea" id="mq-obs" placeholder="Anotações gerais..." style="min-height:60px;"></textarea>
-    </div>
-    <div class="form-group">
-      <label class="flbl">Fotos do Equipamento</label>
-      <div id="fotos-maq-preview" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;"></div>
-      <label style="display:flex;align-items:center;gap:8px;background:#F8FAFC;border:2px dashed #E2E8F0;border-radius:8px;padding:12px;cursor:pointer;transition:all .2s;" id="foto-maq-label">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-        <span style="font-size:12px;color:#64748B;font-weight:600;">Adicionar foto (NF, recibo, equipamento...)</span>
-        <input type="file" id="foto-maq-inp" accept="image/*" multiple style="display:none;" onchange="previewFotosMaq(this)">
-      </label>
-    </div>
-    <div class="btn-row">
-      <button class="btn btn-p" style="flex:1;" onclick="salvarMaq()">&#10003; Salvar</button>
-      <button class="btn btn-d btn-sm" id="btn-del-maq" onclick="" style="display:none;">Excluir</button>
+      <button class="btn btn-y" onclick="salvarMaq()">&#10003; Salvar</button>
+      <div id="wrap-del-maq" style="margin-top:8px;"></div>
     </div>
   </div>
 </div>
@@ -426,142 +411,127 @@ header{background:#FFCD11;padding:12px 16px;display:flex;align-items:center;just
 <div class="modal-bg" id="modal-det">
   <div class="modal">
     <div class="modal-hdr">
-      <div class="modal-title" id="det-title">Detalhes</div>
-      <button class="modal-x" onclick="closeModal('modal-det')">&times;</button>
+      <div class="modal-title" id="det-title">Detalhe</div>
+      <button class="modal-x" onclick="fecharModal('modal-det')">&times;</button>
     </div>
-    <div id="det-body"></div>
+    <div class="modal-body" id="det-body"></div>
   </div>
 </div>
 
-<div id="toast" style="position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1E3A6E;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:700;display:none;z-index:999;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.2);"></div>
+<!-- MODAL EDITAR MANUTENCAO -->
+<div class="modal-bg" id="modal-edit-manut">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div class="modal-title">Editar Manutenção</div>
+      <button class="modal-x" onclick="fecharModal('modal-edit-manut')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label class="flbl">Máquina</label><select class="fsel" id="em-maq"></select></div>
+      <div class="form-row">
+        <div class="form-group"><label class="flbl">Tipo</label>
+          <select class="fsel" id="em-tipo"><option value="preventiva">Preventiva</option><option value="corretiva">Corretiva</option></select>
+        </div>
+        <div class="form-group"><label class="flbl">Data</label><input class="finput" id="em-data" type="date"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="flbl">KM / Horímetro</label><input class="finput" id="em-med" type="number"></div>
+        <div class="form-group"><label class="flbl">Mecânico</label><input class="finput" id="em-mec" type="text"></div>
+      </div>
+      <div class="form-group"><label class="flbl">Peça(s)</label><input class="finput" id="em-peca" type="text"></div>
+      <div class="form-group"><label class="flbl">Serviço</label><textarea class="ftarea" id="em-svc" style="min-height:60px;"></textarea></div>
+      <div class="form-group"><label class="flbl">Custo Total (R$)</label><input class="finput" id="em-custo" type="number" step="0.01"></div>
+      <div class="form-group">
+        <label class="flbl">Centros de Custo</label>
+        <div class="cc-chips" id="cc-chips-edit"></div>
+      </div>
+      <div style="background:#F8FAFC;border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;color:#64748B;" id="em-editado-por"></div>
+      <button class="btn btn-y" onclick="salvarEditManut()">&#10003; Salvar Alterações</button>
+      <button class="btn btn-r" style="margin-top:8px;" onclick="apagarManut()">&#128465; Apagar Registro</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CONFIRMAR EXCLUSAO -->
+<div class="modal-bg" id="modal-del">
+  <div class="modal">
+    <div class="modal-hdr" style="background:#DC2626;">
+      <div class="modal-title" style="color:#fff;">&#9888; Confirmar Exclusão</div>
+      <button class="modal-x" style="background:rgba(255,255,255,.2);color:#fff;" onclick="fecharModal('modal-del')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div style="text-align:center;padding:10px 0 16px;">
+        <div style="font-size:40px;margin-bottom:8px;">&#128465;</div>
+        <div style="font-size:15px;font-weight:700;margin-bottom:4px;" id="del-nm"></div>
+        <div style="font-size:12px;color:#64748B;">Esta ação não pode ser desfeita!</div>
+      </div>
+      <div class="form-group">
+        <label class="flbl">Senha para confirmar</label>
+        <input class="finput" id="del-senha" type="password" placeholder="Sua senha">
+        <div style="color:#DC2626;font-size:12px;margin-top:4px;min-height:16px;" id="del-err"></div>
+      </div>
+      <button class="btn btn-r" onclick="confirmarDel()">Excluir Definitivamente</button>
+      <button class="btn btn-c" style="margin-top:8px;" onclick="fecharModal('modal-del')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script>
 // ── FIREBASE ─────────────────────────────────────────
-var fbApp = null, fbDb = null;
+var db = null;
 try {
-  fbApp = firebase.initializeApp({
-    apiKey: "AIzaSyDtjLGu1lOdGSYTJh12S8ucunSqKtKzMMc",
-    authDomain: "frota-global.firebaseapp.com",
-    databaseURL: "https://frota-global-default-rtdb.firebaseio.com",
-    projectId: "frota-global",
-    storageBucket: "frota-global.firebasestorage.app",
-    messagingSenderId: "615898547305",
-    appId: "1:615898547305:web:3c635d40934086986e4ef8"
+  firebase.initializeApp({
+    apiKey:"AIzaSyDtjLGu1lOdGSYTJh12S8ucunSqKtKzMMc",
+    authDomain:"frota-global.firebaseapp.com",
+    databaseURL:"https://frota-global-default-rtdb.firebaseio.com",
+    projectId:"frota-global",
+    storageBucket:"frota-global.firebasestorage.app",
+    messagingSenderId:"615898547305",
+    appId:"1:615898547305:web:3c635d40934086986e4ef8"
   });
-  fbDb = firebase.database();
-} catch(e) { console.warn("Firebase:", e.message); }
+  db = firebase.database();
+} catch(e){ console.warn("Firebase:",e); }
 
-function fbSalvar(path, val) {
-  try { localStorage.setItem("fb_"+path, JSON.stringify(val)); } catch(e){}
-  if (fbDb) fbDb.ref(path).set(val).catch(function(e){ console.warn(e); });
-}
-function fbCarregar(path, cb) {
-  if (fbDb) {
-    fbDb.ref(path).once("value")
-      .then(function(s){ cb(s.val()); })
-      .catch(function(){ cb(JSON.parse(localStorage.getItem("fb_"+path)||"null")); });
-  } else {
-    cb(JSON.parse(localStorage.getItem("fb_"+path)||"null"));
-  }
-}
-function fbOuvir(path, cb) {
-  if (fbDb) fbDb.ref(path).on("value", function(s){ cb(s.val()); });
-}
+function fbGet(p,cb){ if(db){db.ref(p).once("value").then(function(s){cb(s.val());}).catch(function(){cb(ls(p));});}else cb(ls(p)); }
+function fbSet(p,v){ lsSet(p,v); if(db)db.ref(p).set(v).catch(function(e){console.warn(e);}); }
+function fbOn(p,cb){ if(db)db.ref(p).on("value",function(s){cb(s.val());}); }
+function ls(k){ try{return JSON.parse(localStorage.getItem(k)||"null");}catch(e){return null;} }
+function lsSet(k,v){ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} }
 
-// Salvar foto como base64 no Realtime Database (gratuito)
-function uploadFoto(file, pasta, id, cb) {
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    // Redimensionar imagem para economizar espaco
-    var img = new Image();
-    img.onload = function() {
-      var canvas = document.createElement("canvas");
-      var MAX = 800;
-      var w = img.width, h = img.height;
-      if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
-      if (h > MAX) { w = Math.round(w * MAX / h); h = MAX; }
-      canvas.width = w; canvas.height = h;
-      canvas.getContext("2d").drawImage(img, 0, 0, w, h);
-      var base64 = canvas.toDataURL("image/jpeg", 0.7);
-      var fotoId = pasta + "_" + id + "_" + Date.now();
-      // Salvar no Firebase Database
-      if (fbDb) {
-        fbDb.ref("frota/fotos/" + fotoId).set(base64)
-          .then(function(){ cb(fotoId, null); })
-          .catch(function(){ cb(base64, null); }); // fallback: retorna base64 direto
-      } else {
-        cb(base64, null);
-      }
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
-// Recuperar foto pelo ID
-function getFotoUrl(idOuBase64, cb) {
-  if (!idOuBase64) { cb(""); return; }
-  // Se ja e base64 retorna direto
-  if (idOuBase64.startsWith("data:")) { cb(idOuBase64); return; }
-  // Buscar no Firebase
-  if (fbDb) {
-    fbDb.ref("frota/fotos/" + idOuBase64).once("value")
-      .then(function(s){ cb(s.val() || ""); })
-      .catch(function(){ cb(""); });
-  } else { cb(""); }
-}
-
-// ── DADOS ────────────────────────────────────────────
-var USERS = {
-  "admin":     {nome:"Administrador", senha:"1234", perfil:"admin"},
-  "motorista": {nome:"Motorista",     senha:"1234", perfil:"operador"},
-  "mecanico":  {nome:"Mecânico",      senha:"1234", perfil:"operador"}
+// ── DADOS ─────────────────────────────────────────────
+var USERS_BASE = {
+  "admin":{nome:"Administrador",senha:"1234",perfil:"admin"},
+  "motorista":{nome:"Motorista",senha:"1234",perfil:"operador"},
+  "mecanico":{nome:"Mecânico",senha:"1234",perfil:"operador"}
 };
-
 var TIPOS = {
-  retroescavadeira: {l:"Retroescavadeira", icon:"&#9968;"},
-  caminhao:         {l:"Caminhao",          icon:"&#128666;"},
-  manipuladora:     {l:"Manipuladora",      icon:"&#127959;"},
-  camionete:        {l:"Camionete",         icon:"&#128665;"},
-  carro:            {l:"Carro de Passeio",  icon:"&#128664;"}
+  retroescavadeira:{l:"Retroescavadeira",icon:"&#9968;"},
+  caminhao:{l:"Caminhão",icon:"&#128666;"},
+  manipuladora:{l:"Manipuladora",icon:"&#127959;"},
+  camionete:{l:"Camionete",icon:"&#128665;"},
+  carro:{l:"Carro de Passeio",icon:"&#128664;"}
 };
+var SEM_PLACA = ["retroescavadeira","manipuladora"];
+var S = {usr:null,perfil:null,nome:null,filtro:"",tabManut:"reg",delId:null,editManutId:null};
+var fotosMaq=[],fotosManut=[];
+var ccSel=[], ccSelEdit=[];
 
-var S = {usr:null, perfil:null, maqSel:null, filtroTipo:"", tabManut:"registrar"};
+function getMaquinas(){ return ls("frota_maq")||[]; }
+function saveMaquinas(d){ fbSet("frota/maquinas",d); lsSet("frota_maq",d); }
+function getManutencoes(){ return ls("frota_manut")||[]; }
+function saveManutencoes(d){ fbSet("frota/manutencoes",d); lsSet("frota_manut",d); }
+function getCCs(){ return ls("frota_cc")||[]; }
+function saveCCs(d){ fbSet("frota/ccs",d); lsSet("frota_cc",d); }
+function getUsuarios(){ return ls("frota_usuarios")||{}; }
+function saveUsuarios(d){ fbSet("frota/usuarios",d); lsSet("frota_usuarios",d); }
 
-// ── PERSISTENCIA ─────────────────────────────────────
-function load(k){ try{return JSON.parse(localStorage.getItem(k)||"null");}catch(e){return null;} }
-// ── DADOS INICIAIS DA FROTA ───────────────────────────
-var FROTA_INICIAL = [
-  {id:"mq_001",tipo:"carro",marca:"VOLKSWAGEN",modelo:"SAVEIRO PIPPER",ano:"2017",cor:"",placa:"",chassi:"",medidorTipo:"km",medidorAtual:0,revDias:180,revMedidor:10000,ultimaRev:"",medidorRev:0,operador:"",obs:"Aquisicao: 2020"},
-  {id:"mq_002",tipo:"caminhao",marca:"MERCEDES-BENZ",modelo:"1314",ano:"1986",cor:"",placa:"",chassi:"",medidorTipo:"km",medidorAtual:0,revDias:180,revMedidor:10000,ultimaRev:"",medidorRev:0,operador:"",obs:"Caminhao Pipa | Aquisicao: 2022"},
-  {id:"mq_003",tipo:"retroescavadeira",marca:"JOHN DEERE",modelo:"310L",ano:"2019",cor:"",placa:"",chassi:"",medidorTipo:"horas",medidorAtual:0,revDias:90,revMedidor:250,ultimaRev:"",medidorRev:0,operador:"",obs:"Retro 1 | Aquisicao: 10/2022"},
-  {id:"mq_004",tipo:"caminhao",marca:"MERCEDES-BENZ",modelo:"1718",ano:"2010",cor:"BRANCA",placa:"",chassi:"",medidorTipo:"km",medidorAtual:0,revDias:180,revMedidor:15000,ultimaRev:"",medidorRev:0,operador:"",obs:"Cacamba Branca | Aquisicao: 01/2023"},
-  {id:"mq_005",tipo:"caminhao",marca:"MERCEDES-BENZ",modelo:"ATEGO 1719",ano:"2016",cor:"",placa:"",chassi:"",medidorTipo:"km",medidorAtual:0,revDias:180,revMedidor:15000,ultimaRev:"",medidorRev:0,operador:"",obs:"Caminhao Carroceria | Aquisicao: 01/2023"},
-  {id:"mq_006",tipo:"carro",marca:"FIAT",modelo:"STRADA 1.3",ano:"2012",cor:"",placa:"",chassi:"",medidorTipo:"km",medidorAtual:0,revDias:180,revMedidor:10000,ultimaRev:"",medidorRev:0,operador:"",obs:"Aquisicao: 2023"},
-  {id:"mq_007",tipo:"carro",marca:"HONDA",modelo:"BROSS 160",ano:"2018",cor:"",placa:"",chassi:"",medidorTipo:"km",medidorAtual:0,revDias:180,revMedidor:10000,ultimaRev:"",medidorRev:0,operador:"",obs:"Moto | Aquisicao: 2023"},
-  {id:"mq_008",tipo:"carro",marca:"HONDA",modelo:"TWISTER 250",ano:"2008",cor:"",placa:"",chassi:"",medidorTipo:"km",medidorAtual:0,revDias:180,revMedidor:10000,ultimaRev:"",medidorRev:0,operador:"",obs:"Moto | Aquisicao: 2023"},
-  {id:"mq_009",tipo:"retroescavadeira",marca:"JCB",modelo:"3CX",ano:"2022",cor:"",placa:"",chassi:"",medidorTipo:"horas",medidorAtual:0,revDias:90,revMedidor:250,ultimaRev:"",medidorRev:0,operador:"",obs:"Retro 2 | Aquisicao: 02/2025"},
-  {id:"mq_010",tipo:"caminhao",marca:"VOLVO",modelo:"VM 260",ano:"2012",cor:"",placa:"",chassi:"",medidorTipo:"km",medidorAtual:0,revDias:180,revMedidor:15000,ultimaRev:"",medidorRev:0,operador:"",obs:"Caminhao Betoneira 01 | Aquisicao: 06/2025"},
-  {id:"mq_011",tipo:"caminhao",marca:"VOLVO",modelo:"VM 270",ano:"2013",cor:"",placa:"",chassi:"",medidorTipo:"km",medidorAtual:0,revDias:180,revMedidor:15000,ultimaRev:"",medidorRev:0,operador:"",obs:"Caminhao Betoneira 02 | Aquisicao: 06/2025"},
-  {id:"mq_012",tipo:"manipuladora",marca:"JCB",modelo:"540/170",ano:"2023",cor:"",placa:"",chassi:"",medidorTipo:"horas",medidorAtual:0,revDias:90,revMedidor:250,ultimaRev:"",medidorRev:0,operador:"",obs:"Aquisicao: 01/2025"},
-  {id:"mq_013",tipo:"caminhao",marca:"—",modelo:"USINA DE CONCRETO 67",ano:"2025",cor:"",placa:"",chassi:"",medidorTipo:"horas",medidorAtual:0,revDias:90,revMedidor:500,ultimaRev:"",medidorRev:0,operador:"",obs:"Usina de Concreto | Aquisicao: 07/2025"},
-  {id:"mq_014",tipo:"caminhao",marca:"VOLKSWAGEN",modelo:"BOMBA LANCA DE CONCRETO",ano:"2025",cor:"",placa:"",chassi:"",medidorTipo:"km",medidorAtual:0,revDias:180,revMedidor:15000,ultimaRev:"",medidorRev:0,operador:"",obs:"Aquisicao: 08/2025"}
-];
-
-function carregarDadosIniciais() {
-  // So carrega se nao houver dados ja salvos
-  if (!localStorage.getItem("frota_maquinas")) {
-    localStorage.setItem("frota_maquinas", JSON.stringify(FROTA_INICIAL));
-    console.log("14 maquinas carregadas automaticamente!");
-  }
+function todosUsuarios(){
+  var extra = getUsuarios();
+  var todos = Object.assign({},USERS_BASE);
+  Object.keys(extra).forEach(function(k){ todos[k]=extra[k]; });
+  return todos;
 }
-
-function save(k,v){ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} }
-
-function getMaquinas(){ return load("frota_maquinas")||[]; }
-function saveMaquinas(d){ save("frota_maquinas",d); }
-function getManutencoes(){ return load("frota_manut")||[]; }
-function saveManutencoes(d){ save("frota_manut",d); }
 
 // ── LOGIN ─────────────────────────────────────────────
 document.getElementById("l-p").addEventListener("keydown",function(e){if(e.key==="Enter")doLogin();});
@@ -572,647 +542,789 @@ function doLogin(){
   var err=document.getElementById("l-err");
   err.textContent="";
   if(!u||!p){err.textContent="Preencha usuário e senha.";return;}
-  var usr=USERS[u];
-  if(!usr||usr.senha!==p){err.textContent="Usuário ou senha incorretos.";return;}
-  S.usr=u;S.perfil=usr.perfil;
-  document.getElementById("pg-login").style.display="none";
-  var app=document.getElementById("app");
-  app.style.cssText="display:flex;flex-direction:column;min-height:100vh;";
-  document.getElementById("h-perf").textContent=S.perfil;
-  var husr=document.getElementById("h-usr");if(husr)husr.textContent=nome;
-  configurarPerfil();
-  popularSelMaq();
-  renderDash();
-  goTab("home",document.querySelector(".bni"));
-  // data padrão manutenção
-  document.getElementById("m-data").value=new Date().toISOString().split("T")[0];
+  // Carregar usuarios do Firebase para ter os extras
+  fbGet("frota/usuarios",function(extra){
+    var todos=Object.assign({},USERS_BASE,extra||{});
+    var usr=todos[u];
+    if(!usr||usr.senha!==p){err.textContent="Usuário ou senha incorretos.";return;}
+    S.usr=u;S.perfil=usr.perfil;S.nome=usr.nome;
+    lsSet("frota_sessao",{usr:u,perfil:usr.perfil,nome:usr.nome});
+    iniciarApp(usr.nome,usr.perfil);
+  });
 }
 
 function doLogout(){
   S.usr=null;S.perfil=null;
-  try { localStorage.removeItem("frota_sessao"); } catch(e){}
+  lsSet("frota_sessao",null);
   document.getElementById("pg-login").style.display="flex";
   document.getElementById("app").style.display="none";
   document.getElementById("l-p").value="";
   document.getElementById("l-err").textContent="";
 }
 
-function configurarPerfil(){
-  var isAdmin=S.perfil==="admin";
-  document.getElementById("btn-add-maq").style.display=isAdmin?"flex":"none";
-  document.getElementById("tab-admin").style.display="flex";
-  // alertas no dot
-  verificarAlertas();
+function iniciarApp(nome,perfil){
+  document.getElementById("pg-login").style.display="none";
+  var app=document.getElementById("app");
+  app.style.display="flex";app.style.flexDirection="column";
+  document.getElementById("h-usr").textContent=nome;
+  document.getElementById("btn-add").style.display=perfil==="admin"?"flex":"none";
+  document.getElementById("nav-admin").style.display=perfil==="admin"?"flex":"none";
+  // Carregar dados
+  fbGet("frota/maquinas",function(d){if(d&&d.length)lsSet("frota_maq",d);
+    fbGet("frota/manutencoes",function(d2){if(d2&&d2.length)lsSet("frota_manut",d2);
+      fbGet("frota/ccs",function(d3){if(d3&&d3.length)lsSet("frota_cc",d3);
+        fbGet("frota/usuarios",function(d4){if(d4)lsSet("frota_usuarios",d4);
+          popularSelMaq();renderDash();renderCCsReg();
+          document.getElementById("m-data").value=new Date().toISOString().split("T")[0];
+          // Listeners tempo real
+          fbOn("frota/maquinas",function(d){if(d){lsSet("frota_maq",d);renderFrota();renderDash();}});
+          fbOn("frota/manutencoes",function(d){if(d){lsSet("frota_manut",d);renderDash();}});
+          fbOn("frota/ccs",function(d){if(d){lsSet("frota_cc",d);renderCCsReg();}});
+        });
+      });
+    });
+  });
 }
 
-// ── TABS ─────────────────────────────────────────────
+// ── NAVEGAÇÃO ─────────────────────────────────────────
 function goTab(id,btn){
   document.querySelectorAll(".page").forEach(function(p){p.classList.remove("on");});
-  document.querySelectorAll(".bni").forEach(function(b){b.classList.remove("on");});
+  document.querySelectorAll(".nb").forEach(function(b){b.classList.remove("on");});
   document.getElementById("pg-"+id).classList.add("on");
-  if(btn) btn.classList.add("on");
-  if(id==="home") renderDash();
-  if(id==="frota"){
-    renderFrota();
-    // Reforcar visibilidade do botao + maquina para admin
-    var btnAdd = document.getElementById("btn-add-maq");
-    if(btnAdd) btnAdd.style.display = S.perfil==="admin" ? "flex" : "none";
-  }
-  if(id==="manut") popularSelMaq();
-  if(id==="admin") renderAdmin();
+  if(btn)btn.classList.add("on");
+  if(id==="frota"){renderFrota();document.getElementById("btn-add").style.display=S.perfil==="admin"?"flex":"none";}
+  if(id==="home")renderDash();
+  if(id==="manut"){popularSelMaq();renderCCsReg();}
+  if(id==="relatorio"){popularFiltrosRel();renderRel();}
+  if(id==="admin"){renderAdmin();renderCCAdmin();renderUsrAdmin();}
 }
 
-function setTabManut(tab,btn){
+// ── TABS MANUT ────────────────────────────────────────
+function setTabManut(tab){
   S.tabManut=tab;
-  document.querySelectorAll(".tabs .tab").forEach(function(t){t.classList.remove("on");});
-  btn.classList.add("on");
-  document.getElementById("manut-registrar").style.display=tab==="registrar"?"block":"none";
-  document.getElementById("manut-historico").style.display=tab==="historico"?"block":"none";
-  if(tab==="historico") renderHistorico();
+  document.getElementById("div-reg").style.display=tab==="reg"?"block":"none";
+  document.getElementById("div-hist").style.display=tab==="hist"?"block":"none";
+  document.getElementById("tb-reg").style.cssText=tab==="reg"?"flex:1;padding:8px;text-align:center;font-size:12px;font-weight:700;cursor:pointer;border-radius:8px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.1);color:#1a1a1a;":"flex:1;padding:8px;text-align:center;font-size:12px;font-weight:700;cursor:pointer;border-radius:8px;color:#64748B;";
+  document.getElementById("tb-hist").style.cssText=tab==="hist"?"flex:1;padding:8px;text-align:center;font-size:12px;font-weight:700;cursor:pointer;border-radius:8px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.1);color:#1a1a1a;":"flex:1;padding:8px;text-align:center;font-size:12px;font-weight:700;cursor:pointer;border-radius:8px;color:#64748B;";
+  if(tab==="hist")renderHist();
 }
 
-// ── FILTRO TIPO ───────────────────────────────────────
-function setFiltroTipo(btn,tipo){
-  S.filtroTipo=tipo;
-  document.querySelectorAll(".filtro-tipo").forEach(function(b){b.classList.remove("on");});
-  btn.classList.add("on");
-  renderFrota();
+// ── FILTRO FROTA ──────────────────────────────────────
+function setFiltro(tipo,btn){
+  S.filtro=tipo;
+  document.querySelectorAll(".fb").forEach(function(b){b.classList.remove("on");});
+  btn.classList.add("on");renderFrota();
+}
+
+// ── CENTROS DE CUSTO ──────────────────────────────────
+function addCC(){
+  var nome=document.getElementById("cc-nome").value.trim();
+  if(!nome){toast("Informe o nome","err");return;}
+  var ccs=getCCs();
+  ccs.push({id:"cc_"+Date.now(),nome:nome});
+  saveCCs(ccs);
+  document.getElementById("cc-nome").value="";
+  renderCCAdmin();renderCCsReg();toast("Centro de custo adicionado!","ok");
+}
+
+function delCC(id){
+  var ccs=getCCs().filter(function(c){return c.id!==id;});
+  saveCCs(ccs);renderCCAdmin();renderCCsReg();toast("Removido","ok");
+}
+
+function renderCCAdmin(){
+  var el=document.getElementById("cc-lista");if(!el)return;
+  var ccs=getCCs();
+  if(!ccs.length){el.innerHTML="<div style='font-size:12px;color:#94A3B8;'>Nenhum centro de custo</div>";return;}
+  el.innerHTML=ccs.map(function(c){
+    return "<div style='display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #F1F5F9;'>"+
+      "<span style='font-size:13px;font-weight:600;'>&#127970; "+c.nome+"</span>"+
+      "<button class='btn btn-r btn-sm' data-ccid='"+c.id+"'>&#128465;</button>"+
+      "</div>";
+  }).join("");
+}
+
+function renderCCsReg(){
+  var el=document.getElementById("cc-chips-reg");if(!el)return;
+  var ccs=getCCs();
+  if(!ccs.length){el.innerHTML="<div style='font-size:12px;color:#94A3B8;'>Nenhum centro de custo cadastrado. Peça ao admin para adicionar.</div>";return;}
+  el.innerHTML="";
+  ccs.forEach(function(c){
+    var chip=document.createElement("div");
+    chip.className="cc-chip"+(ccSel.indexOf(c.id)>=0?" on":"");
+    chip.textContent=c.nome;
+    chip.dataset.ccid=c.id;
+    chip.onclick=function(){
+      var idx=ccSel.indexOf(c.id);
+      if(idx>=0)ccSel.splice(idx,1);else ccSel.push(c.id);
+      chip.classList.toggle("on");
+      atualizarRateio();
+    };
+    el.appendChild(chip);
+  });
+  atualizarRateio();
+}
+
+function renderCCsEdit(){
+  var el=document.getElementById("cc-chips-edit");if(!el)return;
+  var ccs=getCCs();
+  el.innerHTML="";
+  ccs.forEach(function(c){
+    var chip=document.createElement("div");
+    chip.className="cc-chip"+(ccSelEdit.indexOf(c.id)>=0?" on":"");
+    chip.textContent=c.nome;
+    chip.dataset.ccid=c.id;
+    chip.onclick=function(){
+      var idx=ccSelEdit.indexOf(c.id);
+      if(idx>=0)ccSelEdit.splice(idx,1);else ccSelEdit.push(c.id);
+      chip.classList.toggle("on");
+    };
+    el.appendChild(chip);
+  });
+}
+
+function atualizarRateio(){
+  var el=document.getElementById("cc-rateio");if(!el)return;
+  var custo=parseFloat(document.getElementById("m-custo").value)||0;
+  if(!ccSel.length||!custo){el.textContent="";return;}
+  var ccs=getCCs();
+  var por=custo/ccSel.length;
+  var nomes=ccSel.map(function(id){var c=ccs.find(function(x){return x.id===id;});return c?c.nome:id;});
+  el.textContent="Rateio: "+nomes.join(", ")+" = R$ "+por.toFixed(2)+" cada";
+}
+
+document.addEventListener("change",function(e){if(e.target.id==="m-custo")atualizarRateio();});
+
+// ── USUARIOS ──────────────────────────────────────────
+function addUsr(){
+  var nome=document.getElementById("usr-nome").value.trim();
+  var senha=document.getElementById("usr-senha").value.trim();
+  var perfil=document.getElementById("usr-perfil").value;
+  if(!nome||!senha){toast("Preencha nome e senha","err");return;}
+  var login=nome.toLowerCase().replace(/\s+/g,".").replace(/[^a-z.]/g,"");
+  var usrs=getUsuarios();
+  usrs[login]={nome:nome,senha:senha,perfil:perfil};
+  saveUsuarios(usrs);
+  document.getElementById("usr-nome").value="";
+  document.getElementById("usr-senha").value="";
+  renderUsrAdmin();toast("Usuário adicionado! Login: "+login,"ok");
+}
+
+function delUsr(login){
+  var usrs=getUsuarios();delete usrs[login];saveUsuarios(usrs);renderUsrAdmin();toast("Removido","ok");
+}
+
+function renderUsrAdmin(){
+  var el=document.getElementById("usr-lista");if(!el)return;
+  var usrs=getUsuarios();
+  var keys=Object.keys(usrs);
+  if(!keys.length){el.innerHTML="<div style='font-size:12px;color:#94A3B8;'>Nenhum usuário extra</div>";return;}
+  el.innerHTML=keys.map(function(k){
+    var u=usrs[k];
+    return "<div style='display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #F1F5F9;'>"+
+      "<div><div style='font-size:13px;font-weight:700;'>"+u.nome+"</div><div style='font-size:11px;color:#64748B;'>"+k+" · "+u.perfil+"</div></div>"+
+      "<button class='btn btn-r btn-sm' data-usrlogin='"+k+"'>&#128465;</button>"+
+      "</div>";
+  }).join("");
+}
+
+// ── FOTOS ─────────────────────────────────────────────
+function prevFotos(input,prevId,tipo){
+  var files=Array.from(input.files);
+  if(tipo==="maq")fotosMaq=fotosMaq.concat(files);
+  else fotosManut=fotosManut.concat(files);
+  var arr=tipo==="maq"?fotosMaq:fotosManut;
+  var el=document.getElementById(prevId);if(!el)return;
+  el.innerHTML="";
+  arr.forEach(function(f,i){
+    var url=URL.createObjectURL(f);
+    var wrap=document.createElement("div");wrap.className="foto-thumb";
+    var img=document.createElement("img");img.src=url;wrap.appendChild(img);
+    var btn=document.createElement("button");btn.className="foto-del-btn";btn.textContent="x";
+    (function(idx,t,pid){btn.onclick=function(){
+      if(t==="maq")fotosMaq.splice(idx,1);else fotosManut.splice(idx,1);
+      prevFotosArr(t==="maq"?fotosMaq:fotosManut,pid,t);
+    };})(i,tipo,prevId);
+    wrap.appendChild(btn);el.appendChild(wrap);
+  });
+  input.value="";
+}
+
+function prevFotosArr(arr,prevId,tipo){
+  var el=document.getElementById(prevId);if(!el)return;
+  el.innerHTML="";
+  arr.forEach(function(f,i){
+    var url=URL.createObjectURL(f);
+    var wrap=document.createElement("div");wrap.className="foto-thumb";
+    var img=document.createElement("img");img.src=url;wrap.appendChild(img);
+    var btn=document.createElement("button");btn.className="foto-del-btn";btn.textContent="x";
+    (function(idx,t,pid){btn.onclick=function(){
+      if(t==="maq")fotosMaq.splice(idx,1);else fotosManut.splice(idx,1);
+      prevFotosArr(t==="maq"?fotosMaq:fotosManut,pid,t);
+    };})(i,tipo,prevId);
+    wrap.appendChild(btn);el.appendChild(wrap);
+  });
+}
+
+function uploadFotos(arr,pasta,id,cb){
+  if(!arr||!arr.length){cb([]);return;}
+  var result=[],count=0;
+  arr.forEach(function(f){
+    var reader=new FileReader();
+    reader.onload=function(e){
+      var img=new Image();
+      img.onload=function(){
+        var canvas=document.createElement("canvas");
+        var MAX=800;var w=img.width,h=img.height;
+        if(w>MAX){h=Math.round(h*MAX/w);w=MAX;}
+        if(h>MAX){w=Math.round(w*MAX/h);h=MAX;}
+        canvas.width=w;canvas.height=h;
+        canvas.getContext("2d").drawImage(img,0,0,w,h);
+        var b64=canvas.toDataURL("image/jpeg",0.7);
+        var fid=pasta+"_"+id+"_"+Date.now();
+        if(db){db.ref("frota/fotos/"+fid).set(b64).then(function(){result.push(fid);count++;if(count===arr.length)cb(result);}).catch(function(){result.push(b64);count++;if(count===arr.length)cb(result);});}
+        else{result.push(b64);count++;if(count===arr.length)cb(result);}
+      };
+      img.src=e.target.result;
+    };
+    reader.readAsDataURL(f);
+  });
+}
+
+function verFoto(ref){
+  if(!ref)return;
+  if(ref.startsWith("data:")){var w=window.open("","_blank");w.document.write("<img src='"+ref+"' style='max-width:100%;'>");return;}
+  if(db){db.ref("frota/fotos/"+ref).once("value").then(function(s){var url=s.val();if(url){var w=window.open("","_blank");w.document.write("<img src='"+url+"' style='max-width:100%;'>");}});}
 }
 
 // ── MAQUINAS ─────────────────────────────────────────
 var maqEditId=null;
 
 function abrirModalMaq(id){
-  maqEditId=id||null;
+  maqEditId=id;
   var maqArr=getMaquinas();
   var mq=id?maqArr.find(function(m){return m.id===id;}):null;
-  document.getElementById("modal-maq-title").textContent=mq?"Editar Máquina":"Nova Máquina";
+  document.getElementById("maq-title").textContent=mq?"Editar Máquina":"Nova Máquina";
   document.getElementById("mq-tipo").value=mq?mq.tipo:"retroescavadeira";
-  atualizarCampoPlaca(mq?mq.tipo:"retroescavadeira");
   document.getElementById("mq-marca").value=mq?mq.marca:"";
   document.getElementById("mq-modelo").value=mq?mq.modelo:"";
   document.getElementById("mq-ano").value=mq?mq.ano:"";
   document.getElementById("mq-cor").value=mq?mq.cor:"";
   document.getElementById("mq-placa").value=mq?mq.placa:"";
   document.getElementById("mq-chassi").value=mq?mq.chassi:"";
-  document.getElementById("mq-medidor-tipo").value=mq?mq.medidorTipo:"km";
-  document.getElementById("mq-medidor-atual").value=mq?mq.medidorAtual:"";
+  document.getElementById("mq-med-tipo").value=mq?mq.medTipo:"km";
+  document.getElementById("mq-med-atual").value=mq?mq.medAtual:"";
   document.getElementById("mq-rev-dias").value=mq?mq.revDias:"";
-  document.getElementById("mq-rev-medidor").value=mq?mq.revMedidor:"";
-  document.getElementById("mq-ultima-rev").value=mq?mq.ultimaRev:"";
-  document.getElementById("mq-medidor-rev").value=mq?mq.medidorRev:"";
-  document.getElementById("mq-operador").value=mq?mq.operador:"";
+  document.getElementById("mq-rev-med").value=mq?mq.revMed:"";
+  document.getElementById("mq-ult-rev").value=mq?mq.ultRev:"";
+  document.getElementById("mq-med-rev").value=mq?mq.medRev:"";
+  document.getElementById("mq-op").value=mq?mq.op:"";
   document.getElementById("mq-obs").value=mq?mq.obs:"";
-  var btnDel=document.getElementById("btn-del-maq");
-  btnDel.style.display=mq?"flex":"none";
-  btnDel.onclick=mq?function(){if(confirm("Excluir esta máquina?"))deletarMaq(id);}:null;
-  openModal("modal-maq");
+  fotosMaq=[];document.getElementById("prev-maq").innerHTML="";
+  onTipoChange();
+  var wd=document.getElementById("wrap-del-maq");wd.innerHTML="";
+  if(mq&&S.perfil==="admin"){
+    var bd=document.createElement("button");bd.className="btn btn-r";bd.innerHTML="&#128465; Excluir Máquina";
+    (function(eid){bd.onclick=function(){abrirDel(eid);};})(id);
+    wd.appendChild(bd);
+  }
+  abrirModal("modal-maq");
+}
+
+function onTipoChange(){
+  var tipo=document.getElementById("mq-tipo").value;
+  var sem=SEM_PLACA.indexOf(tipo)>=0;
+  var inp=document.getElementById("mq-placa");
+  var lbl=document.getElementById("lbl-placa");
+  if(sem){inp.value="N/A";inp.readOnly=true;inp.style.color="#94A3B8";lbl.textContent="Placa (N/A)";}
+  else{if(inp.value==="N/A")inp.value="";inp.readOnly=false;inp.style.color="";lbl.textContent="Placa";}
 }
 
 function salvarMaq(){
-  var placa=document.getElementById("mq-placa").value.trim().toUpperCase();
   var modelo=document.getElementById("mq-modelo").value.trim();
-  if(!placa||!modelo){toast("Preencha placa e modelo","e");return;}
+  if(!modelo){toast("Informe o modelo","err");return;}
+  var id=maqEditId||("mq_"+Date.now());
   var maqArr=getMaquinas();
   var mq={
-    id: maqEditId||("mq_"+Date.now()),
-    tipo: document.getElementById("mq-tipo").value,
-    marca: document.getElementById("mq-marca").value.trim(),
-    modelo: modelo,
-    ano: document.getElementById("mq-ano").value,
-    cor: document.getElementById("mq-cor").value.trim(),
-    placa: placa,
-    chassi: document.getElementById("mq-chassi").value.trim().toUpperCase(),
-    medidorTipo: document.getElementById("mq-medidor-tipo").value,
-    medidorAtual: parseFloat(document.getElementById("mq-medidor-atual").value)||0,
-    revDias: parseInt(document.getElementById("mq-rev-dias").value)||0,
-    revMedidor: parseFloat(document.getElementById("mq-rev-medidor").value)||0,
-    ultimaRev: document.getElementById("mq-ultima-rev").value,
-    medidorRev: parseFloat(document.getElementById("mq-medidor-rev").value)||0,
-    operador: document.getElementById("mq-operador").value.trim(),
-    obs: document.getElementById("mq-obs").value.trim(),
-    criadoEm: maqEditId?(maqArr.find(function(m){return m.id===maqEditId;})||{}).criadoEm||new Date().toISOString():new Date().toISOString()
+    id:id,tipo:document.getElementById("mq-tipo").value,
+    marca:document.getElementById("mq-marca").value.trim(),
+    modelo:modelo,ano:document.getElementById("mq-ano").value,
+    cor:document.getElementById("mq-cor").value.trim(),
+    placa:document.getElementById("mq-placa").value.trim().toUpperCase(),
+    chassi:document.getElementById("mq-chassi").value.trim(),
+    medTipo:document.getElementById("mq-med-tipo").value,
+    medAtual:parseFloat(document.getElementById("mq-med-atual").value)||0,
+    revDias:parseInt(document.getElementById("mq-rev-dias").value)||0,
+    revMed:parseFloat(document.getElementById("mq-rev-med").value)||0,
+    ultRev:document.getElementById("mq-ult-rev").value,
+    medRev:parseFloat(document.getElementById("mq-med-rev").value)||0,
+    op:document.getElementById("mq-op").value.trim(),
+    obs:document.getElementById("mq-obs").value.trim(),
+    fotos:(maqEditId?(maqArr.find(function(m){return m.id===maqEditId;})||{}).fotos||[]:[])
   };
-  // Upload fotos
-  if (fotosMaqPendentes.length > 0) {
-    toast("Salvando fotos...", "i");
-    uploadFotos(fotosMaqPendentes, "maquinas", mq.id, function(urls) {
-      mq.fotos = (mq.fotos || []).concat(urls);
-      fotosMaqPendentes = [];
-      var prev = document.getElementById("fotos-maq-preview");
-      if (prev) prev.innerHTML = "";
-      if(maqEditId){
-        maqArr=maqArr.map(function(m){return m.id===maqEditId?mq:m;});
-      } else {
-        maqArr.push(mq);
-      }
-      saveMaquinas(maqArr);
-      closeModal("modal-maq");
-      popularSelMaq();
-      renderFrota();
-      renderDash();
-      toast("Maquina salva com " + urls.length + " foto(s)!");
-    });
-  } else {
-    if(maqEditId){
-      maqArr=maqArr.map(function(m){return m.id===maqEditId?mq:m;});
-    } else {
-      maqArr.push(mq);
-    }
-    saveMaquinas(maqArr);
-    closeModal("modal-maq");
-    popularSelMaq();
-    renderFrota();
-    renderDash();
-    toast("Maquina salva!");
+  function fin(urls){
+    mq.fotos=mq.fotos.concat(urls);
+    if(maqEditId){maqArr=maqArr.map(function(m){return m.id===maqEditId?mq:m;});}
+    else{maqArr.push(mq);}
+    saveMaquinas(maqArr);fecharModal("modal-maq");popularSelMaq();renderFrota();renderDash();toast("Máquina salva!","ok");
   }
+  if(fotosMaq.length){toast("Salvando...","");uploadFotos(fotosMaq,"maq",id,fin);}else fin([]);
 }
 
-function deletarMaq(id){
-  var maqArr=getMaquinas().filter(function(m){return m.id!==id;});
-  saveMaquinas(maqArr);
-  closeModal("modal-maq");
-  renderFrota();
-  renderDash();
-  toast("Máquina removida");
+function abrirDel(id){
+  S.delId=id;
+  var mq=getMaquinas().find(function(m){return m.id===id;});if(!mq)return;
+  document.getElementById("del-nm").textContent=(mq.placa&&mq.placa!=="N/A"?mq.placa+" — ":"")+mq.marca+" "+mq.modelo;
+  document.getElementById("del-senha").value="";
+  document.getElementById("del-err").textContent="";
+  fecharModal("modal-maq");abrirModal("modal-del");
 }
 
-function popularSelMaq(){
-  var sel=document.getElementById("m-maq");
-  var maqArr=getMaquinas();
-  sel.innerHTML="<option value=''>Selecione a máquina...</option>";
-  maqArr.forEach(function(m){
-    var t=TIPOS[m.tipo]||{icon:"&#128663;"};
-    var o=document.createElement("option");
-    o.value=m.id;
-    o.textContent=(t.l||m.tipo)+" — "+m.placa+" ("+m.marca+" "+m.modelo+")";
-    sel.appendChild(o);
-  });
+function confirmarDel(){
+  var senha=document.getElementById("del-senha").value;
+  var todos=todosUsuarios();var usr=todos[S.usr];
+  if(!usr||usr.senha!==senha){document.getElementById("del-err").textContent="Senha incorreta!";return;}
+  var arr=getMaquinas().filter(function(m){return m.id!==S.delId;});
+  saveMaquinas(arr);fecharModal("modal-del");fecharModal("modal-det");renderFrota();renderDash();toast("Máquina removida","ok");
 }
 
 // ── RENDER FROTA ─────────────────────────────────────
 function renderFrota(){
   var el=document.getElementById("frota-list");
-  var maqArr=getMaquinas();
+  var arr=getMaquinas();
   var busca=(document.getElementById("busca").value||"").toLowerCase();
-  if(S.filtroTipo) maqArr=maqArr.filter(function(m){return m.tipo===S.filtroTipo;});
-  if(busca) maqArr=maqArr.filter(function(m){
-    return (m.placa+m.modelo+m.marca+m.tipo).toLowerCase().includes(busca);
-  });
-  if(!maqArr.length){
-    el.innerHTML="<div class='empty'><div class='empty-icon'>&#128663;</div><div class='empty-txt'>Nenhuma máquina encontrada</div><div class='empty-sub'>"+(S.perfil==="admin"?"Toque em + Máquina para cadastrar":"Sem máquinas cadastradas")+"</div></div>";
-    return;
-  }
-  el.innerHTML=maqArr.map(function(m){
+  if(S.filtro)arr=arr.filter(function(m){return m.tipo===S.filtro;});
+  if(busca)arr=arr.filter(function(m){return(m.placa+m.modelo+m.marca+m.tipo).toLowerCase().includes(busca);});
+  if(!arr.length){el.innerHTML="<div class='empty'><div class='empty-icon'>&#128663;</div><div class='empty-txt'>Nenhuma máquina</div></div>";return;}
+  el.innerHTML="";
+  arr.forEach(function(m){
     var t=TIPOS[m.tipo]||{l:m.tipo,icon:"&#128663;"};
-    var status=calcStatus(m);
-    return "<div class='card' data-id='"+m.id+"'>"+
-      "<div class='card-hdr'>"+
-      "<div style='display:flex;align-items:center;'>"+
-      "<span class='tipo-icon'>"+t.icon+"</span>"+
-      "<div><div class='card-title'>"+m.placa+"</div><div class='card-sub'>"+m.marca+" "+m.modelo+" "+m.ano+"</div></div>"+
-      "</div>"+
-      "<span class='badge badge-"+status.cls+"'>"+status.txt+"</span>"+
-      "</div>"+
+    var st=calcStatus(m);
+    var div=document.createElement("div");div.className="card click";
+    div.innerHTML="<div class='card-hdr'>"+
+      "<div style='display:flex;align-items:center;gap:10px;'>"+
+      "<span style='font-size:26px;'>"+t.icon+"</span>"+
+      "<div><div class='card-title'>"+(m.placa&&m.placa!=="N/A"?m.placa:m.modelo)+"</div>"+
+      "<div class='card-sub'>"+m.marca+" "+m.modelo+" "+m.ano+"</div></div></div>"+
+      "<span class='badge badge-"+st.cls+"'>"+st.txt+"</span></div>"+
       "<div class='info-grid'>"+
       "<div class='info-item'><div class='info-lbl'>Tipo</div><div class='info-val'>"+t.l+"</div></div>"+
-      "<div class='info-item'><div class='info-lbl'>"+medidorLbl(m)+"</div><div class='info-val'>"+m.medidorAtual.toLocaleString()+"</div></div>"+
-      "<div class='info-item'><div class='info-lbl'>Operador</div><div class='info-val'>"+(m.operador||"—")+"</div></div>"+
-      "<div class='info-item'><div class='info-lbl'>Última Revisão</div><div class='info-val'>"+(m.ultimaRev?fmtData(m.ultimaRev):"Nunca")+"</div></div>"+
-      "</div>"+
-      (status.cls!=="ok"?"<div class='prog-wrap'><div class='prog-lbl'><span>Revisão</span><span>"+Math.round(status.pct*100)+"%</span></div><div class='prog-bar'><div class='prog-fill' style='width:"+Math.round(status.pct*100)+"%;background:"+(status.cls==="crit"?"#DC2626":status.cls==="warn"?"#F59E0B":"#16A34A")+"'></div></div></div>":"")+
+      "<div class='info-item'><div class='info-lbl'>"+(m.medTipo==="horas"?"Horímetro":"KM")+"</div><div class='info-val'>"+m.medAtual.toLocaleString()+"</div></div>"+
+      "<div class='info-item'><div class='info-lbl'>Operador</div><div class='info-val'>"+(m.op||"—")+"</div></div>"+
+      "<div class='info-item'><div class='info-lbl'>Última Revisão</div><div class='info-val'>"+(m.ultRev?fmtData(m.ultRev):"Nunca")+"</div></div>"+
       "</div>";
-  }).join("");
+    (function(mid){div.onclick=function(){abrirDetalhe(mid);};})(m.id);
+    el.appendChild(div);
+  });
 }
 
-// ── DETALHE MAQUINA ───────────────────────────────────
+// ── DETALHE ───────────────────────────────────────────
 function abrirDetalhe(id){
   var maqArr=getMaquinas();
-  var m=maqArr.find(function(x){return x.id===id;});
-  if(!m) return;
+  var m=maqArr.find(function(x){return x.id===id;});if(!m)return;
   var t=TIPOS[m.tipo]||{l:m.tipo,icon:"&#128663;"};
-  var status=calcStatus(m);
+  var st=calcStatus(m);
   var manut=getManutencoes().filter(function(x){return x.maqId===id;}).slice(-5).reverse();
   var custo=getManutencoes().filter(function(x){return x.maqId===id;}).reduce(function(a,b){return a+(b.custo||0);},0);
-  document.getElementById("det-title").innerHTML=t.icon+" "+m.placa;
-  document.getElementById("det-body").innerHTML=
-    "<div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;'>"+
-    "<div><div style='font-size:18px;font-weight:800;color:#1E3A6E;'>"+m.marca+" "+m.modelo+"</div>"+
+  document.getElementById("det-title").innerHTML=t.icon+" "+(m.placa&&m.placa!=="N/A"?m.placa:m.modelo);
+  var html="<div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;'>"+
+    "<div><div style='font-size:18px;font-weight:800;'>"+m.marca+" "+m.modelo+"</div>"+
     "<div style='font-size:13px;color:#64748B;'>"+t.l+" · "+m.ano+(m.cor?" · "+m.cor:"")+"</div></div>"+
-    "<span class='badge badge-"+status.cls+"'>"+status.txt+"</span>"+
-    "</div>"+
-    "<div class='info-grid' style='margin-bottom:10px;'>"+
-    "<div class='info-item'><div class='info-lbl'>Placa</div><div class='info-val'>"+m.placa+"</div></div>"+
-    "<div class='info-item'><div class='info-lbl'>Chassi</div><div class='info-val' style='font-size:11px;'>"+( m.chassi||"—")+"</div></div>"+
-    "<div class='info-item'><div class='info-lbl'>"+medidorLbl(m)+"</div><div class='info-val'>"+m.medidorAtual.toLocaleString()+"</div></div>"+
-    "<div class='info-item'><div class='info-lbl'>Operador</div><div class='info-val'>"+(m.operador||"—")+"</div></div>"+
-    "<div class='info-item'><div class='info-lbl'>Última Revisão</div><div class='info-val'>"+(m.ultimaRev?fmtData(m.ultimaRev):"Nunca")+"</div></div>"+
+    "<span class='badge badge-"+st.cls+"'>"+st.txt+"</span></div>"+
+    "<div class='info-grid' style='margin-bottom:14px;'>"+
+    "<div class='info-item'><div class='info-lbl'>Placa</div><div class='info-val'>"+(m.placa||"—")+"</div></div>"+
+    "<div class='info-item'><div class='info-lbl'>Chassi</div><div class='info-val' style='font-size:11px;'>"+(m.chassi||"—")+"</div></div>"+
+    "<div class='info-item'><div class='info-lbl'>"+(m.medTipo==="horas"?"Horímetro":"KM")+"</div><div class='info-val'>"+m.medAtual.toLocaleString()+"</div></div>"+
+    "<div class='info-item'><div class='info-lbl'>Operador</div><div class='info-val'>"+(m.op||"—")+"</div></div>"+
+    "<div class='info-item'><div class='info-lbl'>Última Revisão</div><div class='info-val'>"+(m.ultRev?fmtData(m.ultRev):"Nunca")+"</div></div>"+
     "<div class='info-item'><div class='info-lbl'>Custo Total</div><div class='info-val'>R$ "+custo.toLocaleString("pt-BR",{minimumFractionDigits:2})+"</div></div>"+
-    "</div>"+
-    (m.obs?"<div style='background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;padding:10px;margin-bottom:12px;font-size:12px;color:#92400E;'>&#128203; "+m.obs+"</div>":"")+
-    "<div style='font-size:11px;font-weight:700;color:#1E3A6E;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;'>Últimas Manutenções</div>"+
-    (manut.length?"<div style='background:#F8FAFC;border-radius:8px;overflow:hidden;'>"+
+    "</div>";
+  if(m.obs)html+="<div style='background:#FFFBEB;border:1px solid #FED7AA;border-radius:8px;padding:10px;margin-bottom:12px;font-size:12px;color:#92400E;'>"+m.obs+"</div>";
+  if(st.msg)html+="<div style='background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:10px;margin-bottom:12px;font-size:12px;color:#DC2626;'>&#9888; "+st.msg+"</div>";
+  // Contagem regressiva
+  var cd=calcContagem(m);
+  if(cd){
+    html+="<div style='font-size:11px;font-weight:700;color:#1a1a1a;text-transform:uppercase;margin-bottom:6px;'>Próxima Revisão</div>"+
+    "<div class='countdown'>"+
+    (cd.dias!==null?"<div class='cd-item "+(cd.dias<0?"crit":cd.dias<=15?"warn":"")+"'><div class='cd-val'>"+(cd.dias<0?"VEN":cd.dias)+"</div><div class='cd-lbl'>Dias</div></div>":"")+
+    (cd.horas!==null?"<div class='cd-item "+(cd.horas<0?"crit":cd.horas<=50?"warn":"")+"'><div class='cd-val'>"+(cd.horas<0?"VEN":cd.horas)+"</div><div class='cd-lbl'>Horas/KM</div></div>":"")+
+    "</div>";
+  }
+  if(m.fotos&&m.fotos.length){
+    html+="<div style='font-size:11px;font-weight:700;color:#1a1a1a;text-transform:uppercase;margin:12px 0 6px;'>Fotos ("+m.fotos.length+")</div>"+
+    "<div style='display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;'>"+
+    m.fotos.map(function(ref){return "<div class='det-foto' data-ref='"+ref+"' style='width:70px;height:70px;background:#F1F5F9;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:24px;'>&#128247;</div>";}).join("")+
+    "</div>";
+  }
+  html+="<div style='font-size:11px;font-weight:700;color:#1a1a1a;text-transform:uppercase;margin-bottom:8px;'>Últimas Manutenções</div>";
+  if(manut.length){
+    html+="<div style='background:#F8FAFC;border-radius:10px;overflow:hidden;'>"+
     manut.map(function(r){
       return "<div class='hist-item'>"+
-        "<div class='hist-top'>"+
-        "<span class='hist-nm badge badge-"+(r.tipo==="preventiva"?"ok":"warn")+"'>"+r.tipo+"</span>"+
-        "<span class='hist-data'>"+fmtData(r.data)+"</span>"+
-        "</div>"+
-        "<div class='hist-det'>"+r.peca+(r.mecanico?" · "+r.mecanico:"")+"</div>"+
+        "<div class='hist-top'><span class='badge badge-"+(r.tipo==="preventiva"?"ok":"warn")+"'>"+r.tipo+"</span>"+
+        "<span class='hist-data'>"+fmtData(r.data)+"</span></div>"+
+        "<div class='hist-det'>"+(r.peca?"&#128296; "+r.peca:"")+(r.mec?" · &#128100; "+r.mec:"")+"</div>"+
+        (r.custo?"<div style='font-size:12px;font-weight:700;color:#16A34A;margin-top:4px;'>R$ "+r.custo.toLocaleString("pt-BR",{minimumFractionDigits:2})+"</div>":"")+
         "</div>";
-    }).join("")+"</div>":"<div style='color:#94A3B8;font-size:12px;text-align:center;padding:12px;'>Nenhuma manutenção registrada</div>")+
-    (mq.fotos&&mq.fotos.length?"<div style='margin:8px 0;'><div style='font-size:11px;font-weight:700;color:#1E3A6E;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;'>Fotos ("+mq.fotos.length+")</div><button class='btn btn-g btn-sm' onclick=\"verFotos(getMaquinas().find(function(m){return m.id==='"+mq.id+"';}).fotos||[])\" style='margin-bottom:4px;'>&#128247; Ver fotos</button></div>":"")+
-    (S.perfil==="admin"?
-      "<div class='btn-row' style='margin-top:14px;'>"+
-      "<button class='btn btn-p' style='flex:1;' data-action='editar' data-maqid='"+id+"'>&#9998; Editar</button>"+
-      "<button class='btn btn-g' data-action='medidor' data-maqid='"+id+"'>&#128260; Medidor</button>"+
-      "</div>":"");
-  openModal("modal-det");
+    }).join("")+"</div>";
+  } else html+="<div style='color:#94A3B8;font-size:12px;text-align:center;padding:12px;'>Sem manutenções</div>";
+  if(S.perfil==="admin"){
+    html+="<div class='btn-row' style='margin-top:16px;'>"+
+      "<button class='btn btn-y' style='flex:1;' data-action='editar' data-mid='"+id+"'>&#9998; Editar</button>"+
+      "<button class='btn btn-c' style='width:auto;' data-action='medidor' data-mid='"+id+"'>&#128260;</button>"+
+      "</div>";
+  }
+  document.getElementById("det-body").innerHTML=html;
+  abrirModal("modal-det");
 }
 
 function atualizarMedidor(id){
-  var novo=prompt("Novo valor do medidor (km/horas):");
-  if(!novo||isNaN(novo)) return;
-  var maqArr=getMaquinas();
-  maqArr=maqArr.map(function(m){return m.id===id?Object.assign({},m,{medidorAtual:parseFloat(novo)}):m;});
-  saveMaquinas(maqArr);
-  closeModal("modal-det");
-  renderFrota();
-  renderDash();
-  toast("Medidor atualizado!");
+  var novo=prompt("Novo valor do medidor:");
+  if(!novo||isNaN(novo))return;
+  var arr=getMaquinas().map(function(m){return m.id===id?Object.assign({},m,{medAtual:parseFloat(novo)}):m;});
+  saveMaquinas(arr);fecharModal("modal-det");renderFrota();renderDash();toast("Medidor atualizado!","ok");
 }
 
 // ── MANUTENCAO ────────────────────────────────────────
+function popularSelMaq(){
+  var arr=getMaquinas();
+  ["m-maq","em-maq"].forEach(function(sid){
+    var sel=document.getElementById(sid);if(!sel)return;
+    sel.innerHTML="<option value=''>Selecione...</option>";
+    arr.forEach(function(m){
+      var t=TIPOS[m.tipo]||{};
+      var o=document.createElement("option");
+      o.value=m.id;o.textContent=(t.l||m.tipo)+" — "+(m.placa&&m.placa!=="N/A"?m.placa:m.modelo)+" ("+m.marca+" "+m.modelo+")";
+      sel.appendChild(o);
+    });
+  });
+}
+
+function atualizarLblMed(){
+  var id=document.getElementById("m-maq").value;
+  var m=getMaquinas().find(function(x){return x.id===id;});
+  document.getElementById("lbl-med").textContent=m&&m.medTipo==="horas"?"Horímetro (h)":"KM";
+}
+
 function salvarManut(){
   var maqId=document.getElementById("m-maq").value;
   var peca=document.getElementById("m-peca").value.trim();
   var data=document.getElementById("m-data").value;
-  if(!maqId){toast("Selecione a máquina","e");return;}
-  if(!peca&&!document.getElementById("m-servico").value.trim()){toast("Informe a peça ou serviço","e");return;}
-  if(!data){toast("Informe a data","e");return;}
-
-  var manut=getManutencoes();
-  var medidor=parseFloat(document.getElementById("m-medidor").value)||0;
-  manut.push({
-    id:"mt_"+Date.now(),
-    maqId:maqId,
-    tipo:document.getElementById("m-tipo").value,
-    data:data,
-    medidor:medidor,
-    peca:peca,
-    mecanico:document.getElementById("m-mecanico").value.trim(),
-    servico:document.getElementById("m-servico").value.trim(),
-    custo:parseFloat(document.getElementById("m-custo").value)||0,
-    criadoEm:new Date().toISOString()
-  });
-  // Upload fotos manutencao
-  var idManut = "mt_" + Date.now();
-  if (fotosManutPendentes.length > 0) {
-    toast("Salvando fotos...", "i");
-    uploadFotos(fotosManutPendentes, "manutencoes", idManut, function(urls) {
-      manut[manut.length-1].fotos = urls;
-      fotosManutPendentes = [];
-      var prev = document.getElementById("fotos-manut-preview");
-      if (prev) prev.innerHTML = "";
-      saveManutencoes(manut);
+  var svc=document.getElementById("m-svc").value.trim();
+  if(!maqId){toast("Selecione a máquina","err");return;}
+  if(!peca&&!svc){toast("Informe a peça ou serviço","err");return;}
+  if(!data){toast("Informe a data","err");return;}
+  var medidor=parseFloat(document.getElementById("m-med").value)||0;
+  var custo=parseFloat(document.getElementById("m-custo").value)||0;
+  var id="mt_"+Date.now();
+  var ccs=getCCs();
+  var ccNomes=ccSel.map(function(cid){var c=ccs.find(function(x){return x.id===cid;});return c?c.nome:cid;});
+  var reg={
+    id:id,maqId:maqId,tipo:document.getElementById("m-tipo").value,
+    data:data,medidor:medidor,peca:peca,mec:document.getElementById("m-mec").value.trim(),
+    svc:svc,custo:custo,ccs:ccSel.slice(),ccNomes:ccNomes,fotos:[],
+    criadoPor:S.nome,criadoEm:new Date().toISOString()
+  };
+  function fin(urls){
+    reg.fotos=urls;
+    var arr=getManutencoes();arr.push(reg);saveManutencoes(arr);
+    // Atualizar medidor e revisao
+    var maqArr=getMaquinas().map(function(m){
+      if(m.id!==maqId)return m;
+      var u=Object.assign({},m);
+      if(medidor>m.medAtual)u.medAtual=medidor;
+      if(reg.tipo==="preventiva"){u.ultRev=data;u.medRev=medidor||m.medAtual;}
+      return u;
     });
-  } else {
-    saveManutencoes(manut);
+    saveMaquinas(maqArr);
+    // Limpar
+    ["m-maq","m-med","m-peca","m-mec","m-svc","m-custo"].forEach(function(i){document.getElementById(i).value="";});
+    document.getElementById("m-data").value=new Date().toISOString().split("T")[0];
+    ccSel=[];fotosManut=[];
+    document.getElementById("prev-manut").innerHTML="";
+    renderCCsReg();renderDash();toast("Manutenção registrada!","ok");
   }
-
-  // atualizar medidor e ultima revisao da maquina
-  var maqArr=getMaquinas();
-  maqArr=maqArr.map(function(m){
-    if(m.id!==maqId) return m;
-    var upd=Object.assign({},m);
-    if(medidor>m.medidorAtual) upd.medidorAtual=medidor;
-    if(document.getElementById("m-tipo").value==="preventiva"){
-      upd.ultimaRev=data;
-      upd.medidorRev=medidor||m.medidorAtual;
-    }
-    return upd;
-  });
-  saveMaquinas(maqArr);
-
-  // limpar form
-  document.getElementById("m-maq").value="";
-  document.getElementById("m-medidor").value="";
-  document.getElementById("m-peca").value="";
-  document.getElementById("m-mecanico").value="";
-  document.getElementById("m-servico").value="";
-  document.getElementById("m-custo").value="";
-  document.getElementById("m-data").value=new Date().toISOString().split("T")[0];
-
-  renderDash();
-  toast("&#10003; Manutenção registrada!");
+  if(fotosManut.length){toast("Salvando...","");uploadFotos(fotosManut,"manut",id,fin);}else fin([]);
 }
 
-function renderHistorico(){
+// ── EDITAR MANUTENCAO ─────────────────────────────────
+function abrirEditManut(id){
+  S.editManutId=id;
+  var r=getManutencoes().find(function(x){return x.id===id;});if(!r)return;
+  document.getElementById("em-maq").value=r.maqId;
+  document.getElementById("em-tipo").value=r.tipo;
+  document.getElementById("em-data").value=r.data;
+  document.getElementById("em-med").value=r.medidor||"";
+  document.getElementById("em-mec").value=r.mec||"";
+  document.getElementById("em-peca").value=r.peca||"";
+  document.getElementById("em-svc").value=r.svc||"";
+  document.getElementById("em-custo").value=r.custo||"";
+  ccSelEdit=r.ccs?r.ccs.slice():[];
+  renderCCsEdit();
+  var epEl=document.getElementById("em-editado-por");
+  if(epEl){
+    var txt="Criado por: "+(r.criadoPor||"—")+" em "+(r.criadoEm?new Date(r.criadoEm).toLocaleDateString("pt-BR"):"—");
+    if(r.editadoPor)txt+=" | Última edição: "+r.editadoPor+" em "+new Date(r.editadoEm).toLocaleDateString("pt-BR");
+    epEl.textContent=txt;
+  }
+  abrirModal("modal-edit-manut");
+}
+
+function apagarManut(){
+  if(!S.editManutId) return;
+  if(!confirm("Apagar este registro de manutenção? Esta ação não pode ser desfeita!")) return;
+  var arr = getManutencoes().filter(function(r){ return r.id !== S.editManutId; });
+  saveManutencoes(arr);
+  fecharModal("modal-edit-manut");
+  renderHist();
+  renderDash();
+  toast("Registro apagado","ok");
+}
+
+function salvarEditManut(){
+  var id=S.editManutId;
+  var arr=getManutencoes();
+  var ccs=getCCs();
+  var ccNomes=ccSelEdit.map(function(cid){var c=ccs.find(function(x){return x.id===cid;});return c?c.nome:cid;});
+  arr=arr.map(function(r){
+    if(r.id!==id)return r;
+    return Object.assign({},r,{
+      maqId:document.getElementById("em-maq").value,
+      tipo:document.getElementById("em-tipo").value,
+      data:document.getElementById("em-data").value,
+      medidor:parseFloat(document.getElementById("em-med").value)||0,
+      mec:document.getElementById("em-mec").value.trim(),
+      peca:document.getElementById("em-peca").value.trim(),
+      svc:document.getElementById("em-svc").value.trim(),
+      custo:parseFloat(document.getElementById("em-custo").value)||0,
+      ccs:ccSelEdit.slice(),ccNomes:ccNomes,
+      editadoPor:S.nome,editadoEm:new Date().toISOString()
+    });
+  });
+  saveManutencoes(arr);fecharModal("modal-edit-manut");renderHist();renderDash();toast("Manutenção atualizada!","ok");
+}
+
+function renderHist(){
   var el=document.getElementById("hist-list");
   var busca=(document.getElementById("busca-hist").value||"").toLowerCase();
+  var arr=getManutencoes().slice().reverse();
   var maqArr=getMaquinas();
-  var manut=getManutencoes().slice().reverse();
-  if(busca){
-    manut=manut.filter(function(r){
-      var m=maqArr.find(function(x){return x.id===r.maqId;})||{};
-      return (m.placa+m.modelo+r.peca+r.mecanico+r.servico).toLowerCase().includes(busca);
-    });
-  }
-  if(!manut.length){el.innerHTML="<div class='empty'><div class='empty-icon'>&#128203;</div><div class='empty-txt'>Nenhuma manutenção</div></div>";return;}
-  el.innerHTML=manut.map(function(r){
-    var m=maqArr.find(function(x){return x.id===r.maqId;})||{placa:"?",modelo:"?"};
+  if(busca)arr=arr.filter(function(r){
+    var m=maqArr.find(function(x){return x.id===r.maqId;})||{};
+    return(m.placa+m.modelo+r.peca+r.mec+r.svc+(r.ccNomes||[]).join("")).toLowerCase().includes(busca);
+  });
+  if(!arr.length){el.innerHTML="<div class='empty'><div class='empty-icon'>&#128203;</div><div class='empty-txt'>Nenhuma manutenção</div></div>";return;}
+  el.innerHTML="";
+  arr.forEach(function(r){
+    var m=maqArr.find(function(x){return x.id===r.maqId;})||{modelo:"?"};
     var t=TIPOS[m.tipo]||{icon:"&#128663;"};
-    return "<div class='hist-item'>"+
-      "<div class='hist-top'>"+
-      "<span style='font-weight:700;'>"+t.icon+" "+m.placa+" — "+m.modelo+"</span>"+
-      "<span class='hist-data'>"+fmtData(r.data)+"</span>"+
-      "</div>"+
-      "<div style='display:flex;gap:6px;margin:4px 0;'>"+
+    var div=document.createElement("div");div.className="hist-item";
+    div.innerHTML="<div class='hist-top'>"+
+      "<span style='font-weight:700;font-size:13px;'>"+t.icon+" "+(m.placa&&m.placa!=="N/A"?m.placa:m.modelo)+"</span>"+
+      "<span class='hist-data'>"+fmtData(r.data)+"</span></div>"+
+      "<div style='margin:4px 0;'>"+
       "<span class='badge badge-"+(r.tipo==="preventiva"?"ok":"warn")+"'>"+r.tipo+"</span>"+
-      (r.medidor?"<span class='badge badge-gray'>"+r.medidor.toLocaleString()+" "+medidorLbl(m)+"</span>":"")+
+      (r.medidor?" <span class='badge' style='background:#F1F5F9;color:#475569;'>"+r.medidor.toLocaleString()+"</span>":"")+
       "</div>"+
-      "<div class='hist-det'>"+(r.peca?"&#128296; "+r.peca:"")+(r.mecanico?" · &#128100; "+r.mecanico:"")+"</div>"+
-      (r.servico?"<div class='hist-det' style='margin-top:2px;'>"+r.servico+"</div>":"")+
+      "<div class='hist-det'>"+(r.peca?"&#128296; "+r.peca:"")+(r.mec?" · &#128100; "+r.mec:"")+"</div>"+
+      (r.ccNomes&&r.ccNomes.length?"<div class='hist-det' style='margin-top:2px;'>&#127970; "+r.ccNomes.join(", ")+"</div>":"")+
       (r.custo?"<div style='font-size:12px;font-weight:700;color:#16A34A;margin-top:4px;'>R$ "+r.custo.toLocaleString("pt-BR",{minimumFractionDigits:2})+"</div>":"")+
-      (r.fotos&&r.fotos.length?"<div style='margin-top:6px;'><button class='btn btn-g btn-sm' onclick=\"verFotos(getManutencoes().find(function(x){return x.id==='"+r.id+"';}).fotos||[])\" >&#128247; "+r.fotos.length+" foto(s)</button></div>":"")+
-      "</div>";
+      (r.editadoPor?"<div style='font-size:10px;color:#94A3B8;margin-top:4px;'>Editado por: "+r.editadoPor+"</div>":"");
+    (function(rid){div.onclick=function(){abrirEditManut(rid);};})(r.id);
+    el.appendChild(div);
+  });
+}
+
+// ── RELATORIO ─────────────────────────────────────────
+function popularFiltrosRel(){
+  var selMaq=document.getElementById("rel-maq");
+  var selCC=document.getElementById("rel-cc");
+  if(!selMaq||!selCC) return;
+  var maqArr=getMaquinas();var ccs=getCCs();
+  var curMaq=selMaq.value;var curCC=selCC.value;
+  selMaq.innerHTML="<option value=''>Todas</option>";
+  maqArr.forEach(function(m){var o=new Option((m.placa&&m.placa!=="N/A"?m.placa:m.modelo)+" — "+m.marca+" "+m.modelo,m.id);selMaq.appendChild(o);});
+  selCC.innerHTML="<option value=''>Todos</option>";
+  ccs.forEach(function(c){var o=new Option(c.nome,c.id);selCC.appendChild(o);});
+  // Restaurar selecoes
+  if(curMaq) selMaq.value=curMaq;
+  if(curCC) selCC.value=curCC;
+}
+
+function renderRel(){
+  var selMaq=document.getElementById("rel-maq");
+  var selCC=document.getElementById("rel-cc");
+  if(!selMaq||!selCC) return;
+  var fMaq=selMaq.value;var fCC=selCC.value;
+  var arr=getManutencoes().filter(function(r){
+    if(fMaq&&r.maqId!==fMaq)return false;
+    if(fCC&&(!r.ccs||r.ccs.indexOf(fCC)<0))return false;
+    return true;
+  }).sort(function(a,b){return a.data<b.data?1:-1;});
+  var total=arr.reduce(function(a,b){return a+(b.custo||0);},0);
+  var tbody=document.getElementById("rel-body");
+  if(!arr.length){tbody.innerHTML="<tr><td colspan='6' style='text-align:center;padding:20px;color:#94A3B8;'>Nenhum registro</td></tr>";document.getElementById("rel-foot").innerHTML="";return;}
+  tbody.innerHTML=arr.map(function(r){
+    var m=maqArr.find(function(x){return x.id===r.maqId;})||{modelo:"?"};
+    var nm=m.placa&&m.placa!=="N/A"?m.placa:m.modelo;
+    var desc=(r.peca||"")+(r.svc?" — "+r.svc:"");
+    return "<tr>"+
+      "<td style='font-weight:700;'>"+nm+"<br><span style='font-size:10px;color:#94A3B8;font-weight:400;'>"+m.marca+" "+m.modelo+"</span></td>"+
+      "<td>"+fmtData(r.data)+"</td>"+
+      "<td><span class='badge badge-"+(r.tipo==="preventiva"?"ok":"warn")+"'>"+r.tipo+"</span></td>"+
+      "<td style='max-width:200px;font-size:11px;'>"+desc+"</td>"+
+      "<td style='font-size:11px;'>"+(r.ccNomes?r.ccNomes.join("<br>"):"—")+"</td>"+
+      "<td style='text-align:right;font-weight:700;'>"+r.custo.toLocaleString("pt-BR",{minimumFractionDigits:2})+"</td>"+
+      "</tr>";
   }).join("");
+  document.getElementById("rel-foot").innerHTML=
+    "<tr style='background:#1a1a1a;color:#FFCD11;'>"+
+    "<td colspan='5' style='padding:8px 10px;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.5px;'>TOTAL ("+arr.length+" registros)</td>"+
+    "<td style='text-align:right;padding:8px 10px;font-weight:800;font-size:14px;'>R$ "+total.toLocaleString("pt-BR",{minimumFractionDigits:2})+"</td>"+
+    "</tr>";
+}
+
+// ── CONTAGEM REGRESSIVA ───────────────────────────────
+function calcContagem(m){
+  var dias=null,horas=null;
+  if(m.revDias&&m.ultRev){
+    var diasPassados=Math.floor((new Date()-new Date(m.ultRev))/(86400000));
+    dias=m.revDias-diasPassados;
+  }
+  if(m.revMed&&m.medAtual!==undefined&&m.medRev!==undefined){
+    var usado=m.medAtual-(m.medRev||0);
+    horas=Math.round(m.revMed-usado);
+  }
+  if(dias===null&&horas===null)return null;
+  return{dias:dias,horas:horas};
+}
+
+function calcStatus(m){
+  var msgs=[],cls="ok";
+  if(m.revDias&&m.ultRev){
+    var d=Math.floor((new Date()-new Date(m.ultRev))/(86400000));
+    var pct=d/m.revDias;
+    if(pct>=1){msgs.push("Revisão VENCIDA ("+d+" dias)");cls="crit";}
+    else if(pct>=0.8){msgs.push("Revisão em "+(m.revDias-d)+" dias");if(cls!=="crit")cls="warn";}
+  }else if(m.revDias&&!m.ultRev){msgs.push("Sem data de revisão");if(cls==="ok")cls="warn";}
+  if(m.revMed&&m.medAtual!==undefined&&m.medRev!==undefined){
+    var usado=m.medAtual-(m.medRev||0);var pct2=usado/m.revMed;
+    if(pct2>=1){msgs.push("Revisão VENCIDA por medidor");cls="crit";}
+    else if(pct2>=0.8){msgs.push("Revisão próxima por medidor");if(cls!=="crit")cls="warn";}
+  }
+  return{cls:cls,txt:cls==="crit"?"VENCIDO":cls==="warn"?"PRÓXIMO":"OK",msg:msgs.join(" | ")};
 }
 
 // ── DASHBOARD ─────────────────────────────────────────
 function renderDash(){
-  var maqArr=getMaquinas();
-  var manut=getManutencoes();
-  var alertas=maqArr.map(function(m){return {m:m,s:calcStatus(m)};}).filter(function(x){return x.s.cls!=="ok";});
+  var arr=getMaquinas(),manut=getManutencoes();
+  var alertas=arr.map(function(m){return{m:m,s:calcStatus(m)};}).filter(function(x){return x.s.cls!=="ok";});
+  var custoMes=manut.filter(function(r){var d=new Date(r.data),n=new Date();return d.getMonth()===n.getMonth()&&d.getFullYear()===n.getFullYear();}).reduce(function(a,b){return a+(b.custo||0);},0);
+  var el=document.getElementById("stats");
+  if(el)el.innerHTML=[
+    {v:arr.length,l:"Máquinas"},{v:alertas.length,l:"Alertas",c:alertas.length?"#DC2626":"#1a1a1a"},
+    {v:manut.length,l:"Manutenções"},{v:"R$ "+custoMes.toLocaleString("pt-BR",{minimumFractionDigits:2}),l:"Custo Mês"}
+  ].map(function(s){return "<div class='stat'><div class='stat-val' style='color:"+(s.c||"#1a1a1a")+"'>"+s.v+"</div><div class='stat-lbl'>"+s.l+"</div></div>";}).join("");
 
-  // stats
-  var custoMes=manut.filter(function(r){
-    var d=new Date(r.data),n=new Date();
-    return d.getMonth()===n.getMonth()&&d.getFullYear()===n.getFullYear();
-  }).reduce(function(a,b){return a+(b.custo||0);},0);
+  // Contagem regressiva para cada maquina
+  var cdEl=document.getElementById("countdown-list");
+  if(cdEl){
+    if(!arr.length){cdEl.innerHTML="<div style='color:#94A3B8;font-size:12px;'>Nenhuma máquina cadastrada</div>";
+    }else{
+      cdEl.innerHTML="";
+      arr.forEach(function(m){
+        var cd=calcContagem(m);
+        var st=calcStatus(m);
+        var t=TIPOS[m.tipo]||{icon:"&#128663;"};
+        var div=document.createElement("div");
+        div.className="card click";div.style.marginBottom="8px";
+        var nm=m.placa&&m.placa!=="N/A"?m.placa:m.modelo;
+        div.innerHTML="<div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;'>"+
+          "<div style='display:flex;align-items:center;gap:8px;'>"+
+          "<span style='font-size:20px;'>"+t.icon+"</span>"+
+          "<div><div style='font-weight:800;font-size:14px;'>"+nm+"</div>"+
+          "<div style='font-size:11px;color:#64748B;'>"+m.marca+" "+m.modelo+"</div></div></div>"+
+          "<span class='badge badge-"+st.cls+"'>"+st.txt+"</span></div>"+
+          (cd?
+            "<div class='countdown'>"+
+            (cd.dias!==null?"<div class='cd-item "+(cd.dias<0?"crit":cd.dias<=15?"warn":"")+"'><div class='cd-val'>"+(cd.dias<0?"VENC":cd.dias)+"</div><div class='cd-lbl'>"+(cd.dias<0?"dias atraso":"dias")+"</div></div>":"")+
+            (cd.horas!==null?"<div class='cd-item "+(cd.horas<0?"crit":cd.horas<=50?"warn":"")+"'><div class='cd-val'>"+(cd.horas<0?"VENC":cd.horas)+"</div><div class='cd-lbl'>"+(m.medTipo==="horas"?"horas":"km")+"</div></div>":"")+
+            "</div>":
+            "<div style='font-size:12px;color:#94A3B8;'>Intervalo de revisão não configurado</div>"
+          );
+        (function(mid){div.onclick=function(){abrirDetalhe(mid);};})(m.id);
+        cdEl.appendChild(div);
+      });
+    }
+  }
 
-  var st=document.getElementById("stats");
-  if(st) st.innerHTML=[
-    {v:maqArr.length,l:"Máquinas",icon:"&#128663;"},
-    {v:alertas.length,l:"Alertas",icon:"&#9888;",c:alertas.length?"#DC2626":"#1E3A6E"},
-    {v:manut.length,l:"Manutenções",icon:"&#128296;"},
-    {v:"R$"+custoMes.toLocaleString("pt-BR",{minimumFractionDigits:2}),l:"Custo Mês",icon:"&#128176;"}
-  ].map(function(s){return "<div class='stat'><div class='stat-val' style='color:"+(s.c||"#1E3A6E")+"'>"+s.v+"</div><div class='stat-lbl'>"+s.l+"</div></div>";}).join("");
-
-  // alertas
+  // Alertas
   var al=document.getElementById("alertas-list");
-  if(!al) return;
-  if(!alertas.length){
-    al.innerHTML="<div class='alerta alerta-ok'><div class='alerta-icon'>&#10003;</div><div class='alerta-txt'><div class='alerta-nm'>Tudo em dia!</div><div class='alerta-sub'>Nenhuma revisão pendente.</div></div></div>";
-    document.getElementById("dot-home").classList.remove("show");
-    return;
-  }
-  document.getElementById("dot-home").classList.add("show");
-  al.innerHTML=alertas.map(function(x){
+  if(!al)return;
+  if(!alertas.length){al.innerHTML="<div class='alerta alerta-ok'><div class='alerta-icon'>&#10003;</div><div><div class='alerta-nm'>Tudo em dia!</div><div class='alerta-sub'>Nenhuma revisão pendente.</div></div></div>";return;}
+  al.innerHTML="";
+  alertas.forEach(function(x){
     var t=TIPOS[x.m.tipo]||{icon:"&#128663;"};
-    return "<div class='alerta alerta-"+x.s.cls+"' data-id='"+x.m.id+"'>"+
-      "<div class='alerta-icon'>"+t.icon+"</div>"+
-      "<div class='alerta-txt'>"+
-      "<div class='alerta-nm'>"+x.m.placa+" — "+x.m.marca+" "+x.m.modelo+"</div>"+
-      "<div class='alerta-sub'>"+x.s.msg+"</div>"+
-      "</div>"+
-      "<span class='badge badge-"+x.s.cls+"'>"+x.s.txt+"</span>"+
-      "</div>";
-  }).join("");
+    var div=document.createElement("div");div.className="alerta alerta-"+x.s.cls+" click";
+    div.innerHTML="<div class='alerta-icon'>"+t.icon+"</div>"+
+      "<div style='flex:1;'><div class='alerta-nm'>"+(x.m.placa&&x.m.placa!=="N/A"?x.m.placa+" — ":"")+x.m.marca+" "+x.m.modelo+"</div>"+
+      "<div class='alerta-sub'>"+x.s.msg+"</div></div>"+
+      "<span class='badge badge-"+x.s.cls+"'>"+x.s.txt+"</span>";
+    (function(mid){div.onclick=function(){abrirDetalhe(mid);};})(x.m.id);
+    al.appendChild(div);
+  });
 }
 
-function verificarAlertas(){
-  var maqArr=getMaquinas();
-  var temAlerta=maqArr.some(function(m){return calcStatus(m).cls!=="ok";});
-  document.getElementById("dot-home").classList.toggle("show",temAlerta);
-}
-
-// ── CALCULAR STATUS ───────────────────────────────────
-function calcStatus(m){
-  var msgs=[];
-  var piorCls="ok";
-  var piorPct=0;
-
-  // por dias
-  if(m.revDias&&m.ultimaRev){
-    var diasDesde=Math.floor((new Date()-new Date(m.ultimaRev))/(1000*60*60*24));
-    var pct=diasDesde/m.revDias;
-    if(pct>=1){msgs.push("Revisão VENCIDA ("+diasDesde+" dias)");piorCls="crit";piorPct=Math.max(piorPct,pct);}
-    else if(pct>=0.8){msgs.push("Revisão próxima ("+(m.revDias-diasDesde)+" dias restantes)");if(piorCls!=="crit")piorCls="warn";piorPct=Math.max(piorPct,pct);}
-  } else if(m.revDias&&!m.ultimaRev){
-    msgs.push("Sem data de revisão cadastrada");if(piorCls==="ok")piorCls="warn";
-  }
-
-  // por medidor
-  if(m.revMedidor&&m.medidorAtual&&m.medidorRev!==undefined){
-    var usado=m.medidorAtual-m.medidorRev;
-    var pct2=usado/m.revMedidor;
-    if(pct2>=1){msgs.push("Revisão VENCIDA ("+Math.round(usado)+" "+medidorLbl(m)+" desde última rev.)");piorCls="crit";piorPct=Math.max(piorPct,pct2);}
-    else if(pct2>=0.8){msgs.push("Revisão próxima ("+(m.revMedidor-usado).toFixed(0)+" "+medidorLbl(m)+" restantes)");if(piorCls!=="crit")piorCls="warn";piorPct=Math.max(piorPct,pct2);}
-  }
-
-  return {
-    cls:piorCls,
-    txt:piorCls==="crit"?"VENCIDO":piorCls==="warn"?"PRÓXIMO":"OK",
-    msg:msgs.join(" | ")||"Revisão em dia",
-    pct:Math.min(1,piorPct||0)
-  };
-}
-
-// ── RELATORIOS ────────────────────────────────────────
 function renderAdmin(){
-  var maqArr=getMaquinas();
-  var manut=getManutencoes();
-  var custoTotal=manut.reduce(function(a,b){return a+(b.custo||0);},0);
+  var arr=getMaquinas(),manut=getManutencoes();
+  var total=manut.reduce(function(a,b){return a+(b.custo||0);},0);
   var prev=manut.filter(function(r){return r.tipo==="preventiva";}).length;
-  var corr=manut.filter(function(r){return r.tipo==="corretiva";}).length;
-
-  var st2=document.getElementById("stats2");
-  if(st2) st2.innerHTML=[
-    {v:maqArr.length,l:"Total Máquinas"},
-    {v:manut.length,l:"Manutenções"},
-    {v:prev,l:"Preventivas",c:"#16A34A"},
-    {v:"R$"+custoTotal.toLocaleString("pt-BR",{minimumFractionDigits:2}),l:"Custo Total"}
-  ].map(function(s){return "<div class='stat'><div class='stat-val' style='color:"+(s.c||"#1E3A6E")+"'>"+s.v+"</div><div class='stat-lbl'>"+s.l+"</div></div>";}).join("");
-
-  // por tipo
-  var tipos=Object.keys(TIPOS);
-  var rt=document.getElementById("rel-tipos");
-  if(rt) rt.innerHTML=tipos.map(function(tp){
-    var count=maqArr.filter(function(m){return m.tipo===tp;}).length;
-    if(!count) return "";
-    var t=TIPOS[tp];
-    return "<div class='card' style='padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;gap:10px;'>"+
-      "<span style='font-size:22px;'>"+t.icon+"</span>"+
-      "<span style='flex:1;font-weight:700;'>"+t.l+"</span>"+
-      "<span class='badge badge-blue'>"+count+" unid.</span>"+
-      "</div>";
-  }).join("");
-
-  // custo por maquina
-  var rc=document.getElementById("rel-custos");
-  if(rc){
-    var custos=maqArr.map(function(m){
-      var c=manut.filter(function(r){return r.maqId===m.id;}).reduce(function(a,b){return a+(b.custo||0);},0);
-      return {m:m,c:c};
-    }).filter(function(x){return x.c>0;}).sort(function(a,b){return b.c-a.c;});
-    if(!custos.length){rc.innerHTML="<div style='color:#94A3B8;font-size:12px;text-align:center;padding:14px;'>Nenhum custo registrado</div>";return;}
-    var max=custos[0].c;
-    var t2=TIPOS;
-    rc.innerHTML=custos.map(function(x){
-      var tp=t2[x.m.tipo]||{icon:"&#128663;"};
-      var pct=max?x.c/max:0;
-      return "<div class='card' style='padding:10px 14px;margin-bottom:6px;'>"+
-        "<div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;'>"+
-        "<span>"+tp.icon+" <strong>"+x.m.placa+"</strong> "+x.m.modelo+"</span>"+
-        "<span style='font-weight:800;color:#1E3A6E;'>R$ "+x.c.toLocaleString("pt-BR",{minimumFractionDigits:2})+"</span>"+
-        "</div>"+
-        "<div class='prog-bar'><div class='prog-fill' style='width:"+Math.round(pct*100)+"%;background:#1E3A6E;'></div></div>"+
-        "</div>";
-    }).join("");
-  }
+  var el=document.getElementById("stats2");
+  if(el)el.innerHTML=[
+    {v:arr.length,l:"Máquinas"},{v:manut.length,l:"Manutenções"},
+    {v:prev,l:"Preventivas",c:"#16A34A"},{v:"R$ "+total.toLocaleString("pt-BR",{minimumFractionDigits:2}),l:"Custo Total"}
+  ].map(function(s){return "<div class='stat'><div class='stat-val' style='color:"+(s.c||"#1a1a1a")+"'>"+s.v+"</div><div class='stat-lbl'>"+s.l+"</div></div>";}).join("");
 }
 
-// ── FOTOS ────────────────────────────────────────────
-var fotosMaqPendentes = [];   // fotos aguardando upload no cadastro
-var fotosManutPendentes = []; // fotos aguardando upload na manutencao
-
-function previewFotosMaq(input) {
-  fotosMaqPendentes = Array.from(input.files);
-  var prev = document.getElementById("fotos-maq-preview");
-  if (!prev) return;
-  prev.innerHTML = "";
-  fotosMaqPendentes.forEach(function(f, i) {
-    var url = URL.createObjectURL(f);
-    prev.innerHTML += "<div style='position:relative;'>" +
-      "<img src='" + url + "' style='width:70px;height:70px;object-fit:cover;border-radius:6px;border:1px solid #E2E8F0;'>" +
-      "<div style='position:absolute;top:-4px;right:-4px;background:#DC2626;color:#fff;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:10px;cursor:pointer;' onclick='removerFotoMaq(" + i + ")'>x</div>" +
-      "</div>";
-  });
-}
-
-function removerFotoMaq(i) {
-  fotosMaqPendentes.splice(i, 1);
-  var prev = document.getElementById("fotos-maq-preview");
-  if (prev) prev.innerHTML = "";
-  fotosMaqPendentes.forEach(function(f, j) {
-    var url = URL.createObjectURL(f);
-    prev.innerHTML += "<div style='position:relative;'>" +
-      "<img src='" + url + "' style='width:70px;height:70px;object-fit:cover;border-radius:6px;border:1px solid #E2E8F0;'>" +
-      "<div style='position:absolute;top:-4px;right:-4px;background:#DC2626;color:#fff;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:10px;cursor:pointer;' onclick='removerFotoMaq(" + j + ")'>x</div>" +
-      "</div>";
-  });
-}
-
-function previewFotosManut(input) {
-  fotosManutPendentes = Array.from(input.files);
-  var prev = document.getElementById("fotos-manut-preview");
-  if (!prev) return;
-  prev.innerHTML = "";
-  fotosManutPendentes.forEach(function(f, i) {
-    var url = URL.createObjectURL(f);
-    prev.innerHTML += "<div style='position:relative;'>" +
-      "<img src='" + url + "' style='width:70px;height:70px;object-fit:cover;border-radius:6px;border:1px solid #E2E8F0;'>" +
-      "<div style='position:absolute;top:-4px;right:-4px;background:#DC2626;color:#fff;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:10px;cursor:pointer;' onclick='removerFotoManut(" + i + ")'>x</div>" +
-      "</div>";
-  });
-}
-
-function removerFotoManut(i) {
-  fotosManutPendentes.splice(i, 1);
-  var prev = document.getElementById("fotos-manut-preview");
-  if (prev) {
-    prev.innerHTML = "";
-    fotosManutPendentes.forEach(function(f, j) {
-      var url = URL.createObjectURL(f);
-      prev.innerHTML += "<div style='position:relative;'>" +
-        "<img src='" + url + "' style='width:70px;height:70px;object-fit:cover;border-radius:6px;border:1px solid #E2E8F0;'>" +
-        "<div style='position:absolute;top:-4px;right:-4px;background:#DC2626;color:#fff;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:10px;cursor:pointer;' onclick='removerFotoManut(" + j + ")'>x</div>" +
-        "</div>";
-    });
-  }
-}
-
-function uploadFotos(arquivos, pasta, id, cb) {
-  if (!arquivos || arquivos.length === 0) { cb([]); return; }
-  var refs = [];
-  var count = 0;
-  arquivos.forEach(function(f) {
-    uploadFoto(f, pasta, id, function(ref, err) {
-      if (ref) refs.push(ref);
-      count++;
-      if (count === arquivos.length) cb(refs);
-    });
-  });
-}
-
-function verFotos(fotos) {
-  if (!fotos || !fotos.length) { toast("Nenhuma foto cadastrada"); return; }
-  fotos.forEach(function(ref) {
-    getFotoUrl(ref, function(url) {
-      if (url) {
-        var w = window.open("", "_blank");
-        w.document.write("<img src='" + url + "' style='max-width:100%;'>");
-      }
-    });
-  });
-}
-
-// ── PLACA N/A ─────────────────────────────────────────
-var TIPOS_SEM_PLACA = ["retroescavadeira","manipuladora"];
-function atualizarCampoPlaca(tipo) {
-  var semPlaca = TIPOS_SEM_PLACA.indexOf(tipo) >= 0;
-  var inp = document.getElementById("mq-placa");
-  var lbl = document.getElementById("placa-na-lbl");
-  if(semPlaca) {
-    inp.value = "N/A";
-    inp.style.color = "#94A3B8";
-    inp.readOnly = true;
-    if(lbl) lbl.style.display = "inline";
-  } else {
-    if(inp.value === "N/A") inp.value = "";
-    inp.style.color = "";
-    inp.readOnly = false;
-    if(lbl) lbl.style.display = "none";
-  }
-}
-
-// ── EVENT DELEGATION ─────────────────────────────────
-document.addEventListener("click", function(e){
-  var card = e.target.closest ? e.target.closest("[data-id]") : null;
-  if(card && card.dataset.id) abrirDetalhe(card.dataset.id);
-  var btn = e.target.closest ? e.target.closest("[data-action]") : null;
-  if(btn){
-    var act=btn.dataset.action, mid=btn.dataset.maqid;
-    if(act==="editar"){closeModal("modal-det");abrirModalMaq(mid);}
-    if(act==="medidor") atualizarMedidor(mid);
-  }
+// ── EVENT DELEGATION ──────────────────────────────────
+document.addEventListener("click",function(e){
+  // Ver foto
+  var fo=e.target.closest?e.target.closest(".det-foto"):null;
+  if(fo&&fo.dataset.ref){verFoto(fo.dataset.ref);return;}
+  // Editar maq no detalhe
+  var ea=e.target.closest?e.target.closest("[data-action='editar']"):null;
+  if(ea){fecharModal("modal-det");abrirModalMaq(ea.dataset.mid);return;}
+  // Medidor
+  var ma=e.target.closest?e.target.closest("[data-action='medidor']"):null;
+  if(ma){atualizarMedidor(ma.dataset.mid);return;}
+  // Del CC admin
+  var dc=e.target.closest?e.target.closest("[data-ccid]"):null;
+  if(dc&&dc.tagName==="BUTTON"){delCC(dc.dataset.ccid);return;}
+  // Del usuario admin
+  var du=e.target.closest?e.target.closest("[data-usrlogin]"):null;
+  if(du&&du.tagName==="BUTTON"){delUsr(du.dataset.usrlogin);return;}
 });
 
-// ── UTILS ─────────────────────────────────────────────
-function medidorLbl(m){
-  if(!m) return "KM";
-  if(m.medidorTipo==="horas") return "Horas";
-  if(m.medidorTipo==="ambos") return "KM/H";
-  return "KM";
-}
-
-function fmtData(d){
-  if(!d) return "—";
-  var p=d.split("-");
-  if(p.length===3) return p[2]+"/"+p[1]+"/"+p[0];
-  return d;
-}
-
-function openModal(id){document.getElementById(id).classList.add("on");}
-function closeModal(id){document.getElementById(id).classList.remove("on");}
-
-function toast(msg,t){
+// ── UTILS ────────────────────────────────────────────
+function abrirModal(id){document.getElementById(id).classList.add("on");}
+function fecharModal(id){document.getElementById(id).classList.remove("on");}
+function fmtData(d){if(!d)return"—";var p=d.split("-");return p.length===3?p[2]+"/"+p[1]+"/"+p[0]:d;}
+function toast(msg,tipo){
   var el=document.getElementById("toast");
-  el.innerHTML=msg;el.style.background=t==="e"?"#DC2626":"#1E3A6E";
-  el.style.display="block";
-  clearTimeout(el._t);el._t=setTimeout(function(){el.style.display="none";},2500);
+  el.textContent=msg;el.className="toast"+(tipo?" "+tipo:"");
+  el.style.display="block";clearTimeout(el._t);el._t=setTimeout(function(){el.style.display="none";},2500);
 }
+
+// ── SESSAO PERSISTENTE ────────────────────────────────
+(function(){
+  try{
+    var s=ls("frota_sessao");
+    if(s&&s.usr&&s.perfil){
+      S.usr=s.usr;S.perfil=s.perfil;S.nome=s.nome;
+      iniciarApp(s.nome||s.usr,s.perfil);
+    }
+  }catch(e){}
+})();
 </script>
 </body>
 </html>
