@@ -447,6 +447,7 @@ header{background:#FFCD11;padding:12px 16px;display:flex;align-items:center;just
       <div style="background:#F8FAFC;border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;color:#64748B;" id="em-editado-por"></div>
       <button class="btn btn-y" onclick="salvarEditManut()">&#10003; Salvar Alterações</button>
       <button class="btn btn-r" style="margin-top:8px;" onclick="apagarManut()">&#128465; Apagar Registro</button>
+      <button class="btn btn-r" style="margin-top:8px;" onclick="apagarManut()">&#128465; Apagar Registro</button>
     </div>
   </div>
 </div>
@@ -1104,6 +1105,20 @@ function salvarEditManut(){
   saveManutencoes(arr);fecharModal("modal-edit-manut");renderHist();renderDash();toast("Manutenção atualizada!","ok");
 }
 
+function apagarManut(){
+  var id = S.editManutId;
+  if(!id) return;
+  // Pedir confirmacao simples
+  if(!confirm("Apagar este registro de manutenção? Esta ação não pode ser desfeita!")) return;
+  var arr = getManutencoes().filter(function(r){ return r.id !== id; });
+  saveManutencoes(arr);
+  fecharModal("modal-edit-manut");
+  renderHist();
+  renderDash();
+  renderRel();
+  toast("Registro apagado","ok");
+}
+
 function renderHist(){
   var el=document.getElementById("hist-list");
   var busca=(document.getElementById("busca-hist").value||"").toLowerCase();
@@ -1161,26 +1176,48 @@ function renderRel(){
     if(fCC&&(!r.ccs||r.ccs.indexOf(fCC)<0))return false;
     return true;
   }).sort(function(a,b){return a.data<b.data?1:-1;});
-  var total=arr.reduce(function(a,b){return a+(b.custo||0);},0);
+  // total sera recalculado apos o rateio
+  var maqArr=getMaquinas();
   var tbody=document.getElementById("rel-body");
   if(!arr.length){tbody.innerHTML="<tr><td colspan='6' style='text-align:center;padding:20px;color:#94A3B8;'>Nenhum registro</td></tr>";document.getElementById("rel-foot").innerHTML="";return;}
-  tbody.innerHTML=arr.map(function(r){
+  // Montar linhas — se filtrou por CC, mostrar valor rateado
+  var rows = [];
+  arr.forEach(function(r){
     var m=maqArr.find(function(x){return x.id===r.maqId;})||{modelo:"?"};
     var nm=m.placa&&m.placa!=="N/A"?m.placa:m.modelo;
     var desc=(r.peca||"")+(r.svc?" — "+r.svc:"");
+    var nCCs = (r.ccs&&r.ccs.length) ? r.ccs.length : 1;
+    
+    if(fCC && r.ccs && r.ccs.length > 1){
+      // Mostrar valor rateado para o CC filtrado
+      var valorRateado = r.custo / nCCs;
+      var ccNome = r.ccNomes ? r.ccNomes[r.ccs.indexOf(fCC)] : fCC;
+      rows.push({r:r,m:m,nm:nm,desc:desc,ccExib:ccNome||"—",valor:valorRateado,rateado:true,nCCs:nCCs});
+    } else {
+      // Mostrar valor total com todos os CCs
+      rows.push({r:r,m:m,nm:nm,desc:desc,ccExib:r.ccNomes?r.ccNomes.join("<br>"):"—",valor:r.custo,rateado:false,nCCs:nCCs});
+    }
+  });
+
+  var totalExib = rows.reduce(function(a,b){return a+b.valor;},0);
+
+  tbody.innerHTML=rows.map(function(row){
     return "<tr>"+
-      "<td style='font-weight:700;'>"+nm+"<br><span style='font-size:10px;color:#94A3B8;font-weight:400;'>"+m.marca+" "+m.modelo+"</span></td>"+
-      "<td>"+fmtData(r.data)+"</td>"+
-      "<td><span class='badge badge-"+(r.tipo==="preventiva"?"ok":"warn")+"'>"+r.tipo+"</span></td>"+
-      "<td style='max-width:200px;font-size:11px;'>"+desc+"</td>"+
-      "<td style='font-size:11px;'>"+(r.ccNomes?r.ccNomes.join("<br>"):"—")+"</td>"+
-      "<td style='text-align:right;font-weight:700;'>"+r.custo.toLocaleString("pt-BR",{minimumFractionDigits:2})+"</td>"+
+      "<td style='font-weight:700;'>"+row.nm+"<br><span style='font-size:10px;color:#94A3B8;font-weight:400;'>"+row.m.marca+" "+row.m.modelo+"</span></td>"+
+      "<td>"+fmtData(row.r.data)+"</td>"+
+      "<td><span class='badge badge-"+(row.r.tipo==="preventiva"?"ok":"warn")+"'>"+row.r.tipo+"</span></td>"+
+      "<td style='max-width:200px;font-size:11px;'>"+row.desc+"</td>"+
+      "<td style='font-size:11px;'>"+row.ccExib+(row.rateado?"<br><span style='font-size:9px;color:#94A3B8;'>(rateio 1/"+row.nCCs+")</span>":"")+"</td>"+
+      "<td style='text-align:right;font-weight:700;'>"+row.valor.toLocaleString("pt-BR",{minimumFractionDigits:2})+"</td>"+
       "</tr>";
   }).join("");
+
   document.getElementById("rel-foot").innerHTML=
     "<tr style='background:#1a1a1a;color:#FFCD11;'>"+
-    "<td colspan='5' style='padding:8px 10px;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.5px;'>TOTAL ("+arr.length+" registros)</td>"+
-    "<td style='text-align:right;padding:8px 10px;font-weight:800;font-size:14px;'>R$ "+total.toLocaleString("pt-BR",{minimumFractionDigits:2})+"</td>"+
+    "<td colspan='5' style='padding:8px 10px;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.5px;'>TOTAL ("+rows.length+" registros"+(fCC?" — valor rateado por CC":"")+")"+
+    (fCC&&rows.some(function(x){return x.rateado;})?" <span style='font-size:10px;font-weight:400;opacity:.7;'>valores proporcionais ao rateio</span>":"")+
+    "</td>"+
+    "<td style='text-align:right;padding:8px 10px;font-weight:800;font-size:14px;'>R$ "+totalExib.toLocaleString("pt-BR",{minimumFractionDigits:2})+"</td>"+
     "</tr>";
 }
 
